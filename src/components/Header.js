@@ -1,4 +1,3 @@
-import * as React from 'react'
 import { styled, alpha } from '@mui/material/styles'
 import {
   AppBar,
@@ -15,6 +14,7 @@ import {
   AccountCircle,
   Notifications as NotificationsIcon,
 } from '@mui/icons-material'
+import { Link } from 'react-router-dom'
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -76,8 +76,11 @@ export default function Header() {
             component="div"
             sx={{ display: { xs: 'none', sm: 'block' } }}
           >
-            MUI
+            <Link style={{ textDecoration: 'none', color: 'white' }} to={'/'}>
+              XingtuGym
+            </Link>
           </Typography>
+          <Box sx={{ flexGrow: 1 }} />
           <Search>
             <SearchIconWrapper>
               <SearchIcon />
@@ -87,7 +90,6 @@ export default function Header() {
               inputProps={{ 'aria-label': 'search' }}
             />
           </Search>
-          <Box sx={{ flexGrow: 1 }} />
           <IconButton
             size="large"
             aria-label="show 17 new notifications"
