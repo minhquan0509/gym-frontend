@@ -1,16 +1,17 @@
 .footer{
-    background-color: #9dffff;
-    position: absolute;
+    background-color: #84b8ab;
+    position: initial;
     bottom: 0;
     width: 100%;
-    margin-top: 100px;
+    margin-top: 50px;
+    flex-grow: 1;
 }
 .footer-top{
     width: 80%;
     margin: 0 auto;
     display: flex;
     justify-content: space-between;
-    padding: 30px 0;
+    padding: 10px 0;
 }
 .footer-bottom{
     display: flex;
@@ -19,8 +20,8 @@
 .footer-bottom span{
     width: 80%;
     text-align: center;
-    border-top: 2px solid black;
-    padding: 20px;
+    border-top: 1px solid black;
+    padding: 10px;
 }
 .footer-contact, .footer-follow{
     display: flex;

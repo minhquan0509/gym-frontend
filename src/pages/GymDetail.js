@@ -3,6 +3,7 @@ import { Button, Container, Grid, CardMedia, Typography } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import axios from 'axios'
+import Footer from '../components/Footer'
 
 function GymDetail() {
   const [room, setRoom] = useState({})
@@ -61,6 +62,7 @@ function GymDetail() {
           </Grid>
         </Grid>
       </Container>
+      <Footer />
     </>
   )
 }
