@@ -1,0 +1,52 @@
+/* Review Form */
+.review-form {
+  padding: 20px;
+}
+
+.rating {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 20px;
+}
+
+.rating-pool {
+  display: flex;
+}
+
+.review-input {
+  width: 100%;
+  margin: 30px 0;
+}
+
+.review-img {
+  margin: 25px 0;
+}
+
+.review-submit-btn {
+  margin-bottom: 20px;
+}
+
+/* Review List */
+.review-item {
+  border-top: solid 1px #ccc;
+  padding: 10px 0;
+  width: 100%;
+}
+
+.avatarUser {
+  display: flex;
+}
+
+.review-content {
+  line-height: 1px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.reviewedImg {
+  margin-right: 15px;
+}
+
+.like-btn {
+  display: flex;
+}

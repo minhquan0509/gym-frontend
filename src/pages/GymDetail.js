@@ -1,49 +1,51 @@
-import Header from '../components/header/Header'
-import { Button, Container, Grid, CardMedia, Typography, Breadcrumbs } from '@mui/material'
-import { useEffect, useState } from 'react'
-import { useParams, Link } from 'react-router-dom'
-import axios from 'axios'
-import Footer from '../components/footer/Footer'
+import Header from "../components/Header";
+import { Button, Container, Grid, CardMedia, Typography } from "@mui/material";
+import { useEffect, useState } from "react";
+import { useParams, Link } from "react-router-dom";
+import axios from "axios";
 
 function GymDetail() {
-  const [room, setRoom] = useState({})
+  const [room, setRoom] = useState({});
 
-  const { id } = useParams()
+  const { id } = useParams();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`http://localhost:3001/rooms/${id}`)
-        setRoom(response.data.data.room)
+        const response = await axios.get(`http://localhost:3001/rooms/${id}`);
+        setRoom(response.data.data.room);
       } catch (error) {
-        console.error('Error fetching data:', error)
+        console.error("Error fetching data:", error);
       }
-    }
+    };
 
-    fetchData()
-  }, [id])
+    fetchData();
+  }, [id]);
+
+  // const images = [
+  //   "image1.jpg",
+  //   "image2.jpg",
+  //   "image3.jpg",
+  //   // Thêm các ảnh khác
+  // ];
 
   return (
     <>
-      <Container style={{ paddingTop: '80px' }} fixed>
+      <Header />
+      <Container style={{ paddingTop: "80px" }} fixed>
         <Grid container spacing={2}>
           <Grid item xs={6}>
-          <Breadcrumbs aria-label="breadcrumb" style={{ fontWeight: 'bold', marginBottom: '40px' }} >
-            <Link color="inherit" href="/" >
-              ホーム
-            </Link>
-            <Typography color="text.primary" sx={{ fontWeight: 'bold' }}>ルームジム情報</Typography>
-          </Breadcrumbs>
-          <CardMedia
-            style={{ maxWidth: '500px' }}
-            component="img"
-            image="https://phumyhung.vn/wp-content/uploads/2020/11/Hung-Phuc-Premier-36-Copy.jpg"
-          />
+            <p>Gym Detail {room.name}</p>
+            <CardMedia
+              style={{ maxWidth: "500px" }}
+              component="img"
+              image="https://phumyhung.vn/wp-content/uploads/2020/11/Hung-Phuc-Premier-36-Copy.jpg"
+            />
           </Grid>
           <Grid item xs={6}>
             <Typography variant="h3">ルームジム情報</Typography>
             <Typography variant="h6" mt={2}>
-              - Rating: {room.rating ? room.rating : '未登録'}
+              Rating: {room.rating ? room.rating : "未登録"}
             </Typography>
             <Typography variant="h6" mt={2}>
               - ジム名: {room.name}
@@ -67,7 +69,7 @@ function GymDetail() {
         </Grid>
       </Container>
     </>
-  )
+  );
 }
 
-export default GymDetail
+export default GymDetail;
