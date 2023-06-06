@@ -1,10 +1,10 @@
 import { useParams } from 'react-router-dom'
-import Header from '../components/Header'
+import Header from '../components/header/Header'
 import { Container, Typography, TextField, Grid, Select, MenuItem, Button, InputLabel, FormControl, Box } from '@mui/material'
 import { useState, useEffect } from 'react'
 import GymCard from '../components/GymCard'
 import axios from 'axios'
-import Footer from '../components/Footer'
+import Footer from '../components/footer/Footer'
 
 function SearchPage() {
   const { id } = useParams()
@@ -47,7 +47,6 @@ function SearchPage() {
 
   return (
     <>
-      <Header />
       <Container style={{ paddingTop: '80px' }} fixed>
         <Typography variant="h5">検索</Typography>
         <TextField placeholder="Search" rows={1} fullWidth onChange={handleChangeName} />
@@ -119,7 +118,6 @@ function SearchPage() {
             ))}
         </Grid>
       </Container>
-      <Footer />
     </>
   )
 }

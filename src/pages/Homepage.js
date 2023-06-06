@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react'
 import GymCard from '../components/GymCard'
-import Header from '../components/Header'
+import Header from '../components/header/Header'
 import { Container, Grid } from '@mui/material'
 import axios from 'axios'
-import Footer from '../components/Footer'
+import Footer from '../components/footer/Footer'
 
 
 function Homepage() {
@@ -26,7 +26,6 @@ function Homepage() {
 
   return (
     <>
-      <Header />
       <Container style={{ paddingTop: '80px' }}>
         <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
           {rooms.map((item) => (
@@ -36,7 +35,6 @@ function Homepage() {
           ))}
         </Grid>
       </Container>
-      <Footer />
     </>
   )
 }
