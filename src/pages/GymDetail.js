@@ -1,4 +1,4 @@
-import Header from "../components/Header";
+import Header from "../components/header/Header";
 import { Button, Container, Grid, CardMedia, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
@@ -31,7 +31,6 @@ function GymDetail() {
 
   return (
     <>
-      <Header />
       <Container style={{ paddingTop: "80px" }} fixed>
         <Grid container spacing={2}>
           <Grid item xs={6}>

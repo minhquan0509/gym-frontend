@@ -129,6 +129,140 @@ function SampleReview() {
           </IconButton>
         </Box>
       </Box>
+      <Box
+        sx={{ display: "flex", alignItems: "center" }}
+        className="review-item"
+      >
+        <Avatar src={sampleAvatarUrl} alt="Avatar" className="avatarUser" />
+        <Box sx={{ ml: 2 }}>
+          <div>Username</div>
+          <Rating
+            name="sample-rating"
+            value={sampleRatingValue}
+            readOnly
+            size="small"
+          />
+          <Typography variant="body1" gutterBottom className="review-text">
+            {sampleText}
+          </Typography>
+          <Grid>
+            <img
+              src={sampleImageUrl}
+              alt="Review Image"
+              width="80"
+              height="80"
+              className="reviewedImg"
+            />
+            <img
+              src={sampleImageUrl}
+              alt="Review Image"
+              width="80"
+              height="80"
+              className="reviewedImg"
+            />
+            <img
+              src={sampleImageUrl}
+              alt="Review Image"
+              width="80"
+              height="80"
+              className="reviewedImg"
+            />
+          </Grid>
+          <IconButton
+            onClick={handleLike}
+            className="like-btn"
+            size="small"
+            sx={{ color: liked ? "blue" : "gray" }}
+          >
+            {liked ? (
+              <ThumbUpAlt fontSize="small" />
+            ) : (
+              <ThumbUpOffAltIcon fontSize="small" />
+            )}
+            <span className="like-count">{likeCount}</span>
+          </IconButton>
+          <IconButton
+            onClick={handleDislike}
+            className="like-btn"
+            size="small"
+            sx={{ color: disliked ? "red" : "gray" }}
+          >
+            {disliked ? (
+              <ThumbDownAltIcon fontSize="small" />
+            ) : (
+              <ThumbDownOffAltIcon fontSize="small" />
+            )}
+            <span className="like-count">{dislikeCount}</span>
+          </IconButton>
+        </Box>
+      </Box>
+      <Box
+        sx={{ display: "flex", alignItems: "center" }}
+        className="review-item"
+      >
+        <Avatar src={sampleAvatarUrl} alt="Avatar" className="avatarUser" />
+        <Box sx={{ ml: 2 }}>
+          <div>Username</div>
+          <Rating
+            name="sample-rating"
+            value={sampleRatingValue}
+            readOnly
+            size="small"
+          />
+          <Typography variant="body1" gutterBottom className="review-text">
+            {sampleText}
+          </Typography>
+          <Grid>
+            <img
+              src={sampleImageUrl}
+              alt="Review Image"
+              width="80"
+              height="80"
+              className="reviewedImg"
+            />
+            <img
+              src={sampleImageUrl}
+              alt="Review Image"
+              width="80"
+              height="80"
+              className="reviewedImg"
+            />
+            <img
+              src={sampleImageUrl}
+              alt="Review Image"
+              width="80"
+              height="80"
+              className="reviewedImg"
+            />
+          </Grid>
+          <IconButton
+            onClick={handleLike}
+            className="like-btn"
+            size="small"
+            sx={{ color: liked ? "blue" : "gray" }}
+          >
+            {liked ? (
+              <ThumbUpAlt fontSize="small" />
+            ) : (
+              <ThumbUpOffAltIcon fontSize="small" />
+            )}
+            <span className="like-count">{likeCount}</span>
+          </IconButton>
+          <IconButton
+            onClick={handleDislike}
+            className="like-btn"
+            size="small"
+            sx={{ color: disliked ? "red" : "gray" }}
+          >
+            {disliked ? (
+              <ThumbDownAltIcon fontSize="small" />
+            ) : (
+              <ThumbDownOffAltIcon fontSize="small" />
+            )}
+            <span className="like-count">{dislikeCount}</span>
+          </IconButton>
+        </Box>
+      </Box>
     </>
   );
 }
