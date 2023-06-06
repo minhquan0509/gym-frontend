@@ -1,0 +1,23 @@
+.account-popup>div{
+    padding: 10px 25px;
+
+}
+.account-popup-top{
+    display: flex;
+    gap: 10px;
+    border-bottom: 1px solid black;
+   justify-content: center;
+}
+.account-popup-title{
+    font-weight: 800;
+    padding: 10px 25px;
+    text-align: center;
+
+}
+.account-popup-blue{
+    color: rgb(56, 138, 107);
+}
+.account-popup-bottom{
+    display: flex;
+    gap: 10px;
+}

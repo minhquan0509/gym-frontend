@@ -3,6 +3,8 @@ import GymCard from '../components/GymCard'
 import Header from '../components/Header'
 import { Container, Grid } from '@mui/material'
 import axios from 'axios'
+import Footer from '../components/Footer'
+
 
 function Homepage() {
   const [rooms, setRooms] = useState([])
@@ -34,6 +36,7 @@ function Homepage() {
           ))}
         </Grid>
       </Container>
+      <Footer />
     </>
   )
 }
