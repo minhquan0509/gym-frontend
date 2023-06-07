@@ -1,4 +1,3 @@
-import Header from "../components/header/Header";
 import {
   Button,
   Container,
@@ -8,6 +7,7 @@ import {
   DialogActions,
   DialogTitle,
   Dialog,
+  Breadcrumbs
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
@@ -16,6 +16,8 @@ import "../css/detail.css";
 
 function GymDetail() {
   const [room, setRoom] = useState({});
+  const [selectedImage, setSelectedImage] = useState(room.Images ? room.Images[0].image : '');
+  const [open, setOpen] = useState(false);
 
   const { id } = useParams();
 
@@ -32,14 +34,11 @@ function GymDetail() {
     fetchData();
   }, [id]);
 
-  // const images = [
-  //   "image1.jpg",
-  //   "image2.jpg",
-  //   "image3.jpg",
-  //   // Thêm các ảnh khác
-  // ];
-
-  const [open, setOpen] = useState(false);
+  useEffect(() => {
+    if (room) {
+      setSelectedImage(room.Images ? room.Images[0].image : ''); // Set the other state based on the API data
+    }
+  }, [room])
 
   const handleOpen = () => {
     setOpen(true);
@@ -54,17 +53,37 @@ function GymDetail() {
     setOpen(false);
   };
 
+  const handleImageClick = (image) => {
+    setSelectedImage(image);
+  };
+
   return (
     <>
       <Container style={{ paddingTop: "80px" }} fixed>
         <Grid container spacing={2}>
           <Grid item xs={6}>
-            <p>Gym Detail {room.name}</p>
-            <CardMedia
-              style={{ maxWidth: "500px" }}
-              component="img"
-              image="https://phumyhung.vn/wp-content/uploads/2020/11/Hung-Phuc-Premier-36-Copy.jpg"
-            />
+          <Breadcrumbs aria-label="breadcrumb">
+            <Link color="inherit" href="/">
+              ホーム
+            </Link>
+            <Link color="inherit" href="/">
+              カテゴリー
+            </Link>
+            <Typography color="text.primary">ルームジム情報</Typography>
+          </Breadcrumbs>
+          {selectedImage !== '' && <img src={'http://' + selectedImage} alt="Selected Product" style={{ maxWidth: '500px', height: '400px', width: 'auto', objectFit: 'cover'}} />}
+
+          <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10px', float: 'left' }}>
+            {room.Images ? room.Images.map((item, index) => (
+              <img
+                key={index}
+                src={'http://' + item.image}
+                alt={`Product ${index + 1}`}
+                style={{ width: '50px', height: '50px', margin: '0 5px', cursor: 'pointer', border: item.image === selectedImage ? '2px solid blue' : 'none' }}
+                onClick={() => handleImageClick(item.image)}
+              />
+            )) : null}
+          </div>
           </Grid>
           <Grid item xs={6}>
             <Typography variant="h3">ルームジム情報</Typography>
