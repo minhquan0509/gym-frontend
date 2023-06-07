@@ -6,8 +6,8 @@ const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
     drawer: {
-      width: drawerWidth,
-      flexShrink: 0
+        width: drawerWidth,
+        flexShrink: 0
     },
     drawerPaper: {
         width: drawerWidth,
@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
         position: 'fixed',
         top: '64px !important'
     },
-  }));
+}));
 
 export default function SideBar(props) {
     const classes = useStyles();
@@ -32,17 +32,17 @@ export default function SideBar(props) {
             className='sidebar'
         >
             <Toolbar>
-            <List>
-                <ListItem button>
-                    <Link style={{textDecoration: 'none'}} to={'/search'}>ジム検索</Link>
-                </ListItem>
-                <ListItem button>
-                    <Link style={{textDecoration: 'none'}} to={'/'}>ジム登録</Link>
-                </ListItem>
-                <ListItem button>
-                    <Link style={{textDecoration: 'none'}} to={'/'}>私のジム</Link>
-                </ListItem>
-            </List>
+                <List>
+                    <ListItem button>
+                        <Link style={{ textDecoration: 'none' }} to={'/search'}>ジム検索</Link>
+                    </ListItem>
+                    <ListItem button>
+                        <Link style={{ textDecoration: 'none' }} to={'/'}>ジム登録</Link>
+                    </ListItem>
+                    <ListItem button>
+                        <Link style={{ textDecoration: 'none' }} to={'/'}>私のジム</Link>
+                    </ListItem>
+                </List>
             </Toolbar>
         </Drawer>
     );
