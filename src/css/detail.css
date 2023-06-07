@@ -1,0 +1,18 @@
+.owner-button {
+  margin: 30px 0;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.button-delete { 
+  width: 100px;
+  margin: 0 30px;
+  color: black;
+  background-color: rgb(241, 168, 168, 05);
+}
+
+.button {
+  width: 100px;
+  color: black;
+  background-color: rgba(132, 132, 243, 0.4);
+}

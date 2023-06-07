@@ -1,8 +1,18 @@
 import Header from "../components/header/Header";
-import { Button, Container, Grid, CardMedia, Typography } from "@mui/material";
+import {
+  Button,
+  Container,
+  Grid,
+  CardMedia,
+  Typography,
+  DialogActions,
+  DialogTitle,
+  Dialog,
+} from "@mui/material";
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import axios from "axios";
+import "../css/detail.css";
 
 function GymDetail() {
   const [room, setRoom] = useState({});
@@ -28,6 +38,21 @@ function GymDetail() {
   //   "image3.jpg",
   //   // Thêm các ảnh khác
   // ];
+
+  const [open, setOpen] = useState(false);
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleDelete = () => {
+    //Xoa room
+    setOpen(false);
+  };
 
   return (
     <>
@@ -66,6 +91,32 @@ function GymDetail() {
             </Link>
           </Grid>
         </Grid>
+        <div className="owner-button">
+          <Button onClick={handleOpen} className="button-delete">
+            削除
+          </Button>
+          <Dialog
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+          >
+            <DialogTitle id="alert-dialog-title">
+              {"このジムルームを削除することを確認しますか?"}
+            </DialogTitle>
+            <DialogActions>
+              <Button onClick={handleClose} className="button-delete">
+                キャンセル
+              </Button>
+              <Button onClick={handleDelete} autoFocus className="button">
+                削除する
+              </Button>
+            </DialogActions>
+          </Dialog>
+          <Link to={`editgym`}>
+            <Button className="button">編集</Button>
+          </Link>
+        </div>
       </Container>
     </>
   );
