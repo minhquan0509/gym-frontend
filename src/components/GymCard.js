@@ -4,7 +4,7 @@ import {
   CardContent,
   CardMedia,
   Typography,
-  CardActionArea,
+  CardActionArea
 } from '@mui/material'
 import { Link } from 'react-router-dom'
 export default function GymCard(props) {
@@ -18,7 +18,7 @@ export default function GymCard(props) {
         <CardMedia
           component="img"
           height="140"
-          image="https://cali.vn/storage/app/media/2021/Club/HO%20CHI%20MINH/VVO/HCM_VVO_900x600.jpg"
+          src={room.Images && room.Images.length ? 'http://' + room.Images[0].image : "https://cali.vn/storage/app/media/2021/Club/HO%20CHI%20MINH/VVO/HCM_VVO_900x600.jpg"}
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">

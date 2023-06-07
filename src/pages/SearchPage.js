@@ -16,7 +16,7 @@ function SearchPage() {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get(`http://localhost:3001/rooms?name=${name}&address=${address}&service=${service}&priceMin=${price ? price.priceMin : null}&priceMax=${price ? price.priceMax : null}`);
+      const response = await axios.get(`http://localhost:3001/rooms?name=${name}&address=${address}&service=${service}&priceMin=${price ? price.priceMin : ''}&priceMax=${price ? price.priceMax : ''}`);
       console.log(response.data.data.rooms)
       await setRooms(response.data.data.rooms)
       console.log('rooms:', rooms)
@@ -62,9 +62,9 @@ function SearchPage() {
                 onChange={handleChangeAddress}
                 style={{ minWidth: '200px' }}
               >
-                <MenuItem value={'HoChiMinh'}>Ho Chi Minh</MenuItem>
-                <MenuItem value={'Hanoi'}>Ha Noi</MenuItem>
-                <MenuItem value={'Danang'}>Da Nang</MenuItem>
+                <MenuItem value={'Ho Chi Minh'}>Ho Chi Minh</MenuItem>
+                <MenuItem value={'Ha noi'}>Ha Noi</MenuItem>
+                <MenuItem value={'Da nang'}>Da Nang</MenuItem>
               </Select>
             </FormControl>
           </Grid>
@@ -80,9 +80,9 @@ function SearchPage() {
                 style={{ minWidth: '200px' }}
                 renderValue={(price) => (`${price.priceMin} ${price.priceMax ? '- ' + price.priceMax : '以上'}`)}
               >
-                <MenuItem value={{ priceMin: 100, priceMax: 300 }} >100-300</MenuItem>
-                <MenuItem value={{ priceMin: 300, priceMax: 500 }} >300-500</MenuItem>
-                <MenuItem value={{ priceMin: 500, priceMax: null }} >500-1000</MenuItem>
+                <MenuItem value={{ priceMin: 100000, priceMax: 300000 }} >100k-300k</MenuItem>
+                <MenuItem value={{ priceMin: 300000, priceMax: 500000 }} >300k-500k</MenuItem>
+                <MenuItem value={{ priceMin: 500000, priceMax: '' }} >500k tro len</MenuItem>
               </Select>
             </FormControl>
           </Grid>
