@@ -47,7 +47,7 @@ function SearchPage() {
 
   return (
     <>
-      <Container style={{ paddingTop: '80px' }} fixed>
+      <Container style={{ paddingTop: '80px', minHeight: 'calc( 100vh - 240px )' }} fixed>
         <Typography variant="h5">検索</Typography>
         <TextField placeholder="Search" rows={1} fullWidth onChange={handleChangeName} />
         <Grid container spacing={3} marginTop={'20px'}>

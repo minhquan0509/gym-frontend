@@ -11,16 +11,16 @@ import { Container } from "@mui/material";
 function App() {
   return (
     <Router>
-      <Header />
-      <Container style={{ minHeight: 'calc(100vh - 240px)' }}>
-      <Routes>
-        <Route path="/" element={<Homepage />} />
-        <Route path="/gym/:id" element={<GymDetail />} />
-        <Route path="/gym/:id/review" element={<GymReview />} />
-        <Route path="/search" element={<SearchPage />} />
-      </Routes>
+      <Container style={{ minHeight: '100vh', maxWidth: '1500px' }}>
+        <Header />
+        <Routes>
+          <Route path="/" element={<Homepage />} />
+          <Route path="/gym/:id" element={<GymDetail />} />
+          <Route path="/gym/:id/review" element={<GymReview />} />
+          <Route path="/search" element={<SearchPage />} />
+        </Routes>
+        <Footer />
       </Container>
-      <Footer />
     </Router>
   );
 }

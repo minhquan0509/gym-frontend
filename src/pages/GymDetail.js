@@ -59,7 +59,7 @@ function GymDetail() {
 
   return (
     <>
-      <Container style={{ paddingTop: "80px" }} fixed>
+      <Container style={{ paddingTop: "80px", minHeight: 'calc( 100vh - 240px )' }} fixed>
         <Grid container spacing={2}>
           <Grid item xs={6}>
           <Breadcrumbs aria-label="breadcrumb">

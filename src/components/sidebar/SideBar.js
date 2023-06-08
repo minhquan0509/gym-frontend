@@ -13,7 +13,8 @@ const useStyles = makeStyles((theme) => ({
         width: drawerWidth,
         height: 600,
         position: 'fixed',
-        top: '64px !important'
+        top: '64px !important',
+        right: '200px !important'
     },
   }));
 
