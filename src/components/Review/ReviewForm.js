@@ -1,14 +1,15 @@
 import React, { useState } from "react";
-import { TextField, Button, Rating } from "@mui/material";
+import { TextField, Button, Rating, IconButton } from "@mui/material";
 import "../../css/review.css";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import AttachFileIcon from "@mui/icons-material/AttachFile";
 
 function ReviewForm() {
   const [rating, setRating] = useState(0);
   const [ratingPool, setRatingPool] = useState(0);
   const [comment, setComment] = useState("");
-  const [images, setImages] = useState([]);
+  const [image, setImages] = useState([]);
   const [havePool, setHavePool] = useState(false);
   const { id } = useParams();
 
@@ -52,7 +53,7 @@ function ReviewForm() {
     console.log("Rating:", rating);
     console.log("Rating Pool:", ratingPool);
     console.log("Comment:", comment);
-    console.log("Selected File:", images);
+    console.log("Selected File:", image);
 
     // try {
     //   const res = await axios.post("http://localhost:3001/rooms/review", {
@@ -80,14 +81,44 @@ function ReviewForm() {
   return (
     <form onSubmit={handleSubmit} className="review-form">
       {havePool ? (
-        <div className="rating">
-          <Rating
-            name="rating"
-            value={rating}
-            onChange={handleRatingChange}
-            precision={0.5}
-            className="review-rating"
+        <div>
+          <TextField
+            label="コメントを入力してください。"
+            multiline
+            rows={4}
+            value={comment}
+            onChange={handleCommentChange}
+            className="review-input"
+            InputProps={{
+              endAdornment: (
+                <>
+                  <div className="rating">
+                    <Rating
+                      name="rating"
+                      value={rating}
+                      onChange={handleRatingChange}
+                      precision={0.5}
+                      className="review-rating"
+                    />
+                  </div>
+                  <IconButton component="label" className="review-img">
+                    <AttachFileIcon />
+                    <input
+                      type="file"
+                      accept="image/*"
+                      style={{ display: "none" }}
+                      onChange={handleImageChange}
+                    />
+                  </IconButton>
+                </>
+              ),
+            }}
           />
+          {image && (
+            <div>
+              <img src={image} alt="Selected Image" width="200" />
+            </div>
+          )}
           <div className="rating-pool">
             <label>プール：</label>
             <Rating
@@ -100,39 +131,48 @@ function ReviewForm() {
           </div>
         </div>
       ) : (
-        <div className="rating">
-          <Rating
-            name="rating"
-            value={rating}
-            onChange={handleRatingChange}
-            precision={0.5}
-            className="review-rating"
+        <div>
+          <TextField
+            label="コメントを入力してください。"
+            multiline
+            rows={4}
+            value={comment}
+            onChange={handleCommentChange}
+            className="review-input"
+            InputProps={{
+              endAdornment: (
+                <>
+                  <Rating
+                    name="rating"
+                    value={rating}
+                    onChange={handleRatingChange}
+                    precision={0.5}
+                    className="review-rating"
+                  />
+                  <IconButton component="label">
+                    <AttachFileIcon />
+                    <input
+                      type="file"
+                      accept="image/*"
+                      style={{ display: "none" }}
+                      onChange={handleImageChange}
+                      className="review-img"
+                    />
+                  </IconButton>
+                </>
+              ),
+            }}
           />
+          {image && (
+            <div>
+              <img src={image} alt="Selected Image" width="200" />
+            </div>
+          )}
         </div>
       )}
-      <div>
-        <TextField
-          label="コメントを入力してください。"
-          multiline
-          rows={4}
-          value={comment}
-          onChange={handleCommentChange}
-          className="review-input"
-        />
-      </div>
-      <div>
-        <input
-          type="file"
-          multiple
-          onChange={handleImageChange}
-          className="review-img"
-        />
-      </div>
-      <div>
-        <Button variant="contained" type="submit" className="review-submit-btn">
-          レビュー
-        </Button>
-      </div>
+      <Button variant="contained" type="submit" className="review-submit-btn">
+        レビュー
+      </Button>
     </form>
   );
 }
