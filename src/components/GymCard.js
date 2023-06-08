@@ -30,7 +30,7 @@ export default function GymCard(props) {
             </Link>
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            ABCD
+            ジムルーム詳細
           </Typography>
         </CardContent>
       </CardActionArea>

@@ -49,11 +49,11 @@ function SearchPage() {
     <>
       <Container style={{ paddingTop: '80px', minHeight: 'calc( 100vh - 240px )' }} fixed>
         <Typography variant="h5">検索</Typography>
-        <TextField placeholder="Search" rows={1} fullWidth onChange={handleChangeName} />
+        <TextField placeholder="名前" rows={1} fullWidth onChange={handleChangeName} />
         <Grid container spacing={3} marginTop={'20px'}>
           <Grid item xs={3}>
             <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-label">Address</InputLabel>
+              <InputLabel id="demo-simple-select-label">住所</InputLabel>
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
@@ -70,7 +70,7 @@ function SearchPage() {
           </Grid>
           <Grid item xs={3}>
             <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-label">Price</InputLabel>
+              <InputLabel id="demo-simple-select-label">価格</InputLabel>
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
@@ -88,7 +88,7 @@ function SearchPage() {
           </Grid>
           <Grid item xs={3}>
             <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-label">Service</InputLabel>
+              <InputLabel id="demo-simple-select-label">サービス</InputLabel>
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
@@ -97,18 +97,18 @@ function SearchPage() {
                 onChange={handleChangeService}
                 style={{ minWidth: '200px' }}
               >
-                <MenuItem value={'pool'}>Pool</MenuItem>
-                <MenuItem value={'sauna'}>Sauna</MenuItem>
-                <MenuItem value={'parking'}>Parking</MenuItem>
+                <MenuItem value={'pool'}>プール</MenuItem>
+                <MenuItem value={'sauna'}>サウナ室</MenuItem>
+                <MenuItem value={'parking'}>駐車場</MenuItem>
               </Select>
             </FormControl>
           </Grid>
           <Grid item xs={3}>
-            <Button variant="contained" style={{ height: '100%', minWidth: '160px', float: 'right' }} onClick={handleSearch}>Search</Button>
+            <Button variant="contained" style={{ height: '100%', minWidth: '160px', float: 'right' }} onClick={handleSearch}>検索</Button>
           </Grid>
           {rooms.length === 0 ?
             <Grid item xs={4}>
-              <Typography>No room found</Typography>
+              <Typography>結果がありません。</Typography>
             </Grid>
             :
             rooms.map((item) => (

@@ -106,12 +106,12 @@ function GymDetail() {
               - 登録価格: {room.price}
             </Typography>
             <Link to={`review`}>
-              <Button variant="contained">{room.name}についてのレビューを表示して書く</Button>
+              <Button variant="contained">レビューを表示して書く</Button>
             </Link>
           </Grid>
         </Grid>
         <div className="owner-button">
-          <Button variant="outlined" color="error" onClick={handleOpen} className="button-delete">
+          <Button variant="contained" color="error" onClick={handleOpen} className="button-delete">
             削除
           </Button>
           <Dialog
@@ -133,7 +133,7 @@ function GymDetail() {
             </DialogActions>
           </Dialog>
           <Link to={`editgym`}>
-            <Button variant="outlined" color="success" onClick={handleOpen} className="button">
+            <Button variant="contained" color="success" onClick={handleOpen} className="button">
               編集
             </Button>
           </Link>
