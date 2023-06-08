@@ -62,28 +62,28 @@ function GymDetail() {
       <Container style={{ paddingTop: "80px", minHeight: 'calc( 100vh - 240px )' }} fixed>
         <Grid container spacing={2}>
           <Grid item xs={6}>
-          <Breadcrumbs aria-label="breadcrumb">
-            <Link color="inherit" href="/">
-              ホーム
-            </Link>
-            <Link color="inherit" href="/">
-              カテゴリー
-            </Link>
-            <Typography color="text.primary">ルームジム情報</Typography>
-          </Breadcrumbs>
-          {selectedImage !== '' && <img src={'http://' + selectedImage} alt="Selected Product" style={{ maxWidth: '500px', height: '400px', width: 'auto', objectFit: 'cover'}} />}
+            <Breadcrumbs aria-label="breadcrumb">
+              <Link color="inherit" href="/">
+                ホーム
+              </Link>
+              <Link color="inherit" href="/">
+                カテゴリー
+              </Link>
+              <Typography color="text.primary">ルームジム情報</Typography>
+            </Breadcrumbs>
+            {selectedImage !== '' && <img src={'http://' + selectedImage} alt="Selected Product" style={{ maxWidth: '500px', height: '400px', width: 'auto', objectFit: 'cover' }} />}
 
-          <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10px', float: 'left' }}>
-            {room.Images ? room.Images.map((item, index) => (
-              <img
-                key={index}
-                src={'http://' + item.image}
-                alt={`Product ${index + 1}`}
-                style={{ width: '50px', height: '50px', margin: '0 5px', cursor: 'pointer', border: item.image === selectedImage ? '2px solid blue' : 'none' }}
-                onClick={() => handleImageClick(item.image)}
-              />
-            )) : null}
-          </div>
+            <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10px', float: 'left' }}>
+              {room.Images ? room.Images.map((item, index) => (
+                <img
+                  key={index}
+                  src={'http://' + item.image}
+                  alt={`Product ${index + 1}`}
+                  style={{ width: '50px', height: '50px', margin: '0 5px', cursor: 'pointer', border: item.image === selectedImage ? '2px solid blue' : 'none' }}
+                  onClick={() => handleImageClick(item.image)}
+                />
+              )) : null}
+            </div>
           </Grid>
           <Grid item xs={6}>
             <Typography variant="h3">ルームジム情報</Typography>
@@ -106,12 +106,12 @@ function GymDetail() {
               - 登録価格: {room.price}
             </Typography>
             <Link to={`review`}>
-              <Button variant="contained">Go to {room.name} review page</Button>
+              <Button variant="contained">{room.name}についてのレビューを表示して書く</Button>
             </Link>
           </Grid>
         </Grid>
         <div className="owner-button">
-          <Button onClick={handleOpen} className="button-delete">
+          <Button variant="outlined" color="error" onClick={handleOpen} className="button-delete">
             削除
           </Button>
           <Dialog
@@ -133,8 +133,11 @@ function GymDetail() {
             </DialogActions>
           </Dialog>
           <Link to={`editgym`}>
-            <Button className="button">編集</Button>
+            <Button variant="outlined" color="success" onClick={handleOpen} className="button">
+              編集
+            </Button>
           </Link>
+
         </div>
       </Container>
     </>

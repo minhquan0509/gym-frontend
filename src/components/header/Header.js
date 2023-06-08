@@ -89,7 +89,7 @@ export default function Header() {
                 <div className='account-popup'>
                   <div className='account-popup-top'>
                     <AccountCircle />
-                    <span>Admin</span>
+                    <span>アドミン</span>
                   </div>
                   <div className='account-popup-title account-popup-blue'>
                     <span>プロファイル</span>
@@ -121,7 +121,7 @@ export default function Header() {
 
         </Toolbar>
       </AppBar>
-        <SideBar open={sidebarOpen} onClose={() => setSidebarOpen(false)}/>
+      <SideBar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
     </Box>
   )
 }
