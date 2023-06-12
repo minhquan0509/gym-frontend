@@ -3,6 +3,8 @@ import GymCard from "../components/GymCard";
 import { Container, Grid, Pagination } from "@mui/material";
 import axios from "axios";
 import SimpleImageSlider from 'react-simple-image-slider'
+import Header from "../components/header/Header";
+import Footer from "../components/footer/Footer";
 
 function Homepage() {
   const [rooms, setRooms] = useState([]);
@@ -30,7 +32,7 @@ function Homepage() {
   });
 
   useEffect(() => {
-    if(rooms.length > 0)
+    if (rooms.length > 0)
       setImages(getImageListFromRooms(rooms))
   }, [rooms]);
 
@@ -44,6 +46,8 @@ function Homepage() {
 
   return (
     <>
+      <Header />
+
       <Container style={{ paddingTop: "80px" }}>
         <Grid container
           style={{ marginBottom: '40px' }}
@@ -61,7 +65,7 @@ function Homepage() {
             />
           }
         </Grid>
-        <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }} style={{ minHeight: '500px', marginBottom: '20px'}}>
+        <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }} style={{ minHeight: '500px', marginBottom: '20px' }}>
           {currentItems.map((item) => (
             <Grid item xs={4}>
               <GymCard room={item} />
@@ -76,6 +80,7 @@ function Homepage() {
           />
         </Grid>
       </Container>
+      <Footer />
     </>
   );
 }

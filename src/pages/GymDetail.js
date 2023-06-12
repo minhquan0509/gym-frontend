@@ -13,6 +13,8 @@ import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import axios from "axios";
 import "../css/detail.css";
+import Header from "../components/header/Header";
+import Footer from "../components/footer/Footer";
 
 function GymDetail() {
   const [room, setRoom] = useState({});
@@ -59,6 +61,7 @@ function GymDetail() {
 
   return (
     <>
+      <Header />
       <Container style={{ paddingTop: "80px", minHeight: 'calc( 100vh - 240px )' }} fixed>
         <Grid container spacing={2}>
           <Grid item xs={6}>
@@ -140,6 +143,7 @@ function GymDetail() {
 
         </div>
       </Container>
+      <Footer />
     </>
   );
 }

@@ -1,0 +1,60 @@
+.login_page{
+    display: flex;
+}
+.login_page-logo{
+    font-family: 'Special Elite', cursive;
+    margin-bottom: 50px;
+    text-align: center;
+}
+.login_page img{
+    width: 40%;
+    height: 100vh;
+    background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.login_page-center{
+    display: flex;
+    flex-direction: column;
+    margin: 30px auto 0 auto;
+    width: 60%;
+}
+.login_page-right{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 80%;
+    padding: 30px;
+    height: 100%;
+    border-top:2px solid aqua;
+    border-bottom:2px solid aqua;
+    margin-bottom: 20px;
+    margin-right: auto;
+    margin-left: auto;
+}
+.login_page-right input{
+    margin-bottom: 10px;
+    width: 100%;
+    height: 30px;
+}
+.login_page-right button{
+    width: 100%;
+    height: 40px;
+    margin-top: 20px;
+    margin-right: 0;
+    background-color: aqua;
+    color: white;
+    font-weight: 900;
+    font-size: 20px;
+}
+.login_page-forgot{
+    text-align: right;
+}
+.login_page-title{
+    color: #4e4848;
+}
+.login_page-tosignup{
+    text-align: right;
+    padding-right: 50px;
+    margin-bottom: 30px;
+}
