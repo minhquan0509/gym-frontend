@@ -1,7 +1,10 @@
-import React from 'react';
+import * as React from 'react';
+import { useState } from 'react';
 import { makeStyles } from '@mui/styles';
 import { Drawer, List, ListItem, ListItemIcon, ListItemText, Toolbar } from '@mui/material';
 import { Link } from 'react-router-dom';
+import CloseIcon from '@mui/icons-material/Close';
+
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -11,17 +14,24 @@ const useStyles = makeStyles((theme) => ({
     },
     drawerPaper: {
         width: drawerWidth,
-        height: 600,
-        position: 'fixed',
-        top: '64px !important',
-        right: '200px !important'
+        height: '100%',
+        position: 'absolute !important',
+        top: '0 !important',
+        right: '0 !important',
+        backgroundColor: 'rgb(245, 244, 235) !important',
+        zIndex: '1000 !important',
+        padding: '0 50px !important',
+        border: '1px solid black !important',
+        justifyContent: 'center !important',
     },
 }));
 
 export default function SideBar(props) {
     const classes = useStyles();
-    const { open } = props;
-
+    const { open, setOpen } = props;
+    const handleSideBarClose = () => {
+        setOpen(false);
+    }
     return (
         open &&
         <Drawer
@@ -32,19 +42,46 @@ export default function SideBar(props) {
             }}
             className='sidebar'
         >
+            <CloseIcon
+                style={{
+                    position: 'absolute',
+                    top: '10px',
+                    right: '10px',
+                    fontSize: '50px',
+                }}
+                onClick={() => handleSideBarClose()} />
             <Toolbar>
-                <List>
-                    <ListItem button>
-                        <Link style={{ textDecoration: 'none' }} to={'/search'}>ジム検索</Link>
+
+                <List sx={{ p: 0, width: '100%' }}>
+                    <ListItem sx={{ pl: 2, pr: 2, width: '100%', pt: '0 !important', pb: '0 !important', }}>
+                        <Link
+                            style={{
+                                textDecoration: 'none',
+                                width: '100%',
+                                color: 'black',
+                                fontSize: '20px',
+                                padding: '20px 0',
+                                borderTop: '1px solid #676565',
+                                textAlign: 'center'
+                            }}
+                            to={'/search'}>ジム検索</Link>
                     </ListItem>
-                    <ListItem button>
-                        <Link style={{ textDecoration: 'none' }} to={'/'}>ジム登録</Link>
-                    </ListItem>
-                    <ListItem button>
-                        <Link style={{ textDecoration: 'none' }} to={'/'}>私のジム</Link>
+                    <ListItem sx={{ pl: 2, pr: 2, width: '100%', pt: '0 !important', pb: '0 !important', }}>
+                        <Link
+                            style={{
+                                textDecoration: 'none',
+                                width: '100%',
+                                color: 'black',
+                                fontSize: '20px',
+                                padding: '20px 0',
+                                borderBottom: '1px solid #676565',
+                                borderTop: '1px solid #676565',
+                                textAlign: 'center'
+                            }}
+                            to={'/'}>ジム登録管理</Link>
                     </ListItem>
                 </List>
             </Toolbar>
-        </Drawer>
+        </Drawer >
     );
 };
