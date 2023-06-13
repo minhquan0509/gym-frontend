@@ -48,7 +48,7 @@ function GymLogin() {
                             </div>
                             <div className='login_page-tosignup signup_page-tologin'>
                                 アカウントを持っていますか？
-                                <Link to="" style={{ textDecoration: 'none' }}> ログイン</Link>
+                                <Link to={`/login`} style={{ textDecoration: 'none' }}> ログイン</Link>
                             </div>
                         </form>
                     </div>

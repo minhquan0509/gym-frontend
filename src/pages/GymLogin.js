@@ -32,7 +32,7 @@ function GymLogin() {
                     </div>
                     <div className='login_page-tosignup'>
                         アカウントを持っていませんか？
-                        <Link to="" style={{ textDecoration: 'none' }}> サインアップ</Link>
+                        <Link to={`/sign_up`} style={{ textDecoration: 'none' }}> サインアップ</Link>
                     </div>
                 </div>
 
