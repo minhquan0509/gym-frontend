@@ -65,7 +65,12 @@ function Homepage() {
             />
           }
         </Grid>
-        <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }} style={{ minHeight: '500px', marginBottom: '20px' }}>
+        <Grid
+          container
+          rowSpacing={1}
+          columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+          style={{ minHeight: '500px', marginBottom: '20px' }}
+        >
           {currentItems.map((item) => (
             <Grid item xs={4}>
               <GymCard room={item} />
