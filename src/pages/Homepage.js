@@ -8,7 +8,7 @@ import Footer from "../components/footer/Footer";
 
 function Homepage() {
   const [rooms, setRooms] = useState([]);
-  const [images, setImages] = useState([])
+  const [images, setImages] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
 

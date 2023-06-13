@@ -48,6 +48,7 @@ export default function SideBar(props) {
                     top: '10px',
                     right: '10px',
                     fontSize: '50px',
+                    cursor: 'pointer'
                 }}
                 onClick={() => handleSideBarClose()} />
             <Toolbar>
@@ -78,7 +79,7 @@ export default function SideBar(props) {
                                 borderTop: '1px solid #676565',
                                 textAlign: 'center'
                             }}
-                            to={'/'}>ジム登録管理</Link>
+                            to={''}>ジム登録管理</Link>
                     </ListItem>
                 </List>
             </Toolbar>

@@ -52,6 +52,7 @@
 .review_list-user-infor{
   display: flex;
   flex-direction: column;
+  gap: 10px;
 }
 .review_list-user-infor-avatarUser {
   align-self: center;
