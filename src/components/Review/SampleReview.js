@@ -16,6 +16,7 @@ import axios from "axios";
 import { useEffect } from "react";
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
+import { useParams } from "react-router-dom";
 
 function SampleReview() {
   // useEffect(() => {
@@ -27,6 +28,21 @@ function SampleReview() {
   //     }
   //   }
   // });
+  const [havePool, setHavePool] = useState(false);
+  const { id } = useParams();
+  async function getPool() {
+    try {
+      const res = await axios.get(`http://localhost:3001/rooms/${id}`);
+      if (res.data.data.room.pool) {
+        setHavePool(true);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  }
+
+  getPool();
+
 
   const sampleAvatarUrl = "https://example.com/avatar.jpg";
   const sampleText =
@@ -107,14 +123,16 @@ function SampleReview() {
         </div>
         <div className="review_list-star-time-react">
           <div>
-            <div>
-              <label>プール：</label>
-              <Rating
-                name="sample-rating"
-                value={sampleRatingValue}
-                readOnly
-                size="small" />
-            </div>
+            {havePool && (
+              <div>
+                <label>プール：</label>
+                <Rating
+                  name="sample-rating"
+                  value={sampleRatingValue}
+                  readOnly
+                  size="small" />
+              </div>
+            )}
             <div>投稿日：2023年6月20日</div>
           </div>
           <div>
@@ -190,14 +208,16 @@ function SampleReview() {
         </div>
         <div className="review_list-star-time-react">
           <div>
-            <div>
-              <label>プール：</label>
-              <Rating
-                name="sample-rating"
-                value={sampleRatingValue}
-                readOnly
-                size="small" />
-            </div>
+            {havePool && (
+              <div>
+                <label>プール：</label>
+                <Rating
+                  name="sample-rating"
+                  value={sampleRatingValue}
+                  readOnly
+                  size="small" />
+              </div>
+            )}
             <div>投稿日：2023年6月20日</div>
           </div>
           <div>
@@ -273,14 +293,16 @@ function SampleReview() {
         </div>
         <div className="review_list-star-time-react">
           <div>
-            <div>
-              <label>プール：</label>
-              <Rating
-                name="sample-rating"
-                value={sampleRatingValue}
-                readOnly
-                size="small" />
-            </div>
+            {havePool && (
+              <div>
+                <label>プール：</label>
+                <Rating
+                  name="sample-rating"
+                  value={sampleRatingValue}
+                  readOnly
+                  size="small" />
+              </div>
+            )}
             <div>投稿日：2023年6月20日</div>
           </div>
           <div>
