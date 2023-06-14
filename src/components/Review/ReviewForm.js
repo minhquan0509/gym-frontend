@@ -5,26 +5,13 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 
-function ReviewForm() {
+function ReviewForm(props) {
+  const havePool = props.pool;
   const [rating, setRating] = useState(0);
   const [ratingPool, setRatingPool] = useState(0);
   const [comment, setComment] = useState("");
   const [image, setImages] = useState([]);
-  const [havePool, setHavePool] = useState(false);
   const { id } = useParams();
-
-  async function getPool() {
-    try {
-      const res = await axios.get(`http://localhost:3001/rooms/${id}`);
-      if (res.data.data.room.pool) {
-        setHavePool(true);
-      }
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  }
-
-  getPool();
 
   const handleRatingChange = (event, value) => {
     setRating(value);
@@ -92,15 +79,13 @@ function ReviewForm() {
             InputProps={{
               endAdornment: (
                 <>
-                  <div className="rating">
-                    <Rating
-                      name="rating"
-                      value={rating}
-                      onChange={handleRatingChange}
-                      precision={0.5}
-                      className="review-rating"
-                    />
-                  </div>
+                  <Rating
+                    name="rating"
+                    value={rating}
+                    onChange={handleRatingChange}
+                    precision={0.5}
+                    className="review-rating"
+                  />
                   <IconButton component="label" className="review-img">
                     <AttachFileIcon />
                     <input
