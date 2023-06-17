@@ -11,7 +11,8 @@ import {
   Badge,
   Menu,
   MenuItem,
-  Container
+  Container,
+  Button
 } from '@mui/material'
 import {
   Menu as MenuIcon,
@@ -25,8 +26,16 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import { Link } from 'react-router-dom'
 import './Header.css'
 import SideBar from '../sidebar/SideBar';
+import { createTheme } from '@material-ui/core/styles';
 
 export default function Header() {
+  const theme = createTheme({
+    typography: {
+      fontFamily: [
+        'Special Elite',
+      ].join(','),
+    },
+  });
   const [auth, setAuth] = useState(true);
   const [anchorEl, setAnchorEl] = useState(null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -46,7 +55,7 @@ export default function Header() {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+      <AppBar position="static" className='header-container'>
         <Toolbar>
           <Typography
             variant="h6"
@@ -54,13 +63,15 @@ export default function Header() {
             component="div"
             sx={{ display: { xs: 'none', sm: 'block' } }}
           >
-            <Link style={{ textDecoration: 'none', color: 'white' }} to={'/'}>
-              XingtuGym
+            <Link to={'/'} className='header-gymlogo'>
+              Xingtu<strong>Gym</strong>
             </Link>
           </Typography>
           <Box sx={{ flexGrow: 1 }} />
           {auth && (
             <div>
+              {/* 
+              // Avartar User
               <IconButton
                 size="large"
                 edge="end"
@@ -69,8 +80,9 @@ export default function Header() {
                 color="inherit"
                 onClick={handleMenu}
               >
-                <AccountCircle />
+                <AccountCircle style={{ color: 'black', fontSize: '50px' }} />
               </IconButton>
+              
               <Menu
                 id="menu-appbar"
                 anchorEl={anchorEl}
@@ -105,6 +117,20 @@ export default function Header() {
                   </MenuItem>
                 </div>
               </Menu>
+              */}
+              <Button variant="text">
+                <Link
+                  to={`/login`}
+                  style={{ textDecoration: 'none', fontSize: '20px' }}
+                >ログイン</Link>
+              </Button>
+              <Button
+                variant="contained"
+                sx={{ m: 2 }}>
+                <Link to={`/sign_up`}
+                  style={{ textDecoration: 'none', fontSize: '20px', color: 'white' }}
+                >サインアップ</Link>
+              </Button>
             </div>
           )}
 
@@ -116,12 +142,17 @@ export default function Header() {
             sx={{ m: 0 }}
             onClick={handleToggleSidebar}
           >
-            <MenuIcon />
+            <MenuIcon
+              style={{ color: 'black', fontSize: '50px' }} />
           </IconButton>
 
         </Toolbar>
       </AppBar>
-      <SideBar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
-    </Box>
+      <SideBar
+        open={sidebarOpen}
+        setOpen={setSidebarOpen}
+        onClose={() => setSidebarOpen(false)}
+      />
+    </Box >
   )
 }

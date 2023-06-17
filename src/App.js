@@ -7,19 +7,26 @@ import SearchPage from "./pages/SearchPage";
 import Header from "./components/header/Header";
 import Footer from "./components/footer/Footer";
 import { Container } from "@mui/material";
+import GymLogin from "./pages/GymLogin";
+import GymSignUp from "./pages/GymSignUp";
+
+
 
 function App() {
   return (
+
     <Router>
       <Container style={{ minHeight: '100vh', maxWidth: '1500px' }}>
-        <Header />
         <Routes>
           <Route path="/" element={<Homepage />} />
           <Route path="/gym/:id" element={<GymDetail />} />
           <Route path="/gym/:id/review" element={<GymReview />} />
           <Route path="/search" element={<SearchPage />} />
         </Routes>
-        <Footer />
+        <Routes>
+          <Route path="/login" element={<GymLogin />} />
+          <Route path="/sign_up" element={<GymSignUp />} />
+        </Routes>
       </Container>
     </Router>
   );

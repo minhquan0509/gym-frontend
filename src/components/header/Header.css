@@ -1,3 +1,8 @@
+.header-container{
+    background-color: rgb(245, 244, 235) !important;
+    border-bottom: 1px solid rgb(65, 60, 60);
+    padding: 10px 0;
+}
 .account-popup>div{
     padding: 10px 25px;
 
@@ -20,4 +25,10 @@
 .account-popup-bottom{
     display: flex;
     gap: 10px;
+}
+.header-gymlogo{
+    font-family: 'Special Elite', cursive;
+    font-size: 30px;
+    color: black;
+    text-decoration: none;
 }

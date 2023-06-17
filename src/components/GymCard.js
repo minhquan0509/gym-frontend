@@ -7,9 +7,10 @@ import {
   CardActionArea
 } from '@mui/material'
 import { Link } from 'react-router-dom'
+import '../css/GymCard.css'
+
 export default function GymCard(props) {
   const { room } = props
-
   if (!room) return <div>Loading...</div>
 
   return (
@@ -20,6 +21,12 @@ export default function GymCard(props) {
           height="140"
           src={room.Images && room.Images.length ? 'http://' + room.Images[0].image : "https://cali.vn/storage/app/media/2021/Club/HO%20CHI%20MINH/VVO/HCM_VVO_900x600.jpg"}
         />
+        {room.pool &&
+          <div className='card-havepool'>
+            プール
+          </div>
+        }
+
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
             <Link
@@ -34,6 +41,6 @@ export default function GymCard(props) {
           </Typography>
         </CardContent>
       </CardActionArea>
-    </Card>
+    </Card >
   )
 }

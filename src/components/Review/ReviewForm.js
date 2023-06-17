@@ -3,6 +3,7 @@ import { TextField, Button, Rating } from "@mui/material";
 import "../../css/review.css";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import AttachFileIcon from '@mui/icons-material/AttachFile';
 
 function ReviewForm() {
   const [rating, setRating] = useState(0);
@@ -79,7 +80,15 @@ function ReviewForm() {
 
   return (
     <form onSubmit={handleSubmit} className="review-form">
-      {havePool ? (
+      <div style={{ position: 'relative', }}>
+        <TextField
+          label="コメントを入力してください。"
+          multiline
+          rows={4}
+          value={comment}
+          onChange={handleCommentChange}
+          className="review-input"
+        />
         <div className="rating">
           <Rating
             name="rating"
@@ -88,6 +97,24 @@ function ReviewForm() {
             precision={0.5}
             className="review-rating"
           />
+          <div>
+            <label className="form-label label-upload review_upload-icon" htmlFor='review_labelUpload'>
+              <AttachFileIcon />
+            </label>
+            <input
+              type="file"
+              multiple
+              onChange={handleImageChange}
+              className="review-img"
+              id='review_labelUpload'
+              hidden
+            />
+          </div>
+        </div>
+      </div>
+
+      <div className='rating-pool-btn-submit' >
+        {havePool &&
           <div className="rating-pool">
             <label>プール：</label>
             <Rating
@@ -98,42 +125,12 @@ function ReviewForm() {
               className="review-rating"
             />
           </div>
-        </div>
-      ) : (
-        <div className="rating">
-          <Rating
-            name="rating"
-            value={rating}
-            onChange={handleRatingChange}
-            precision={0.5}
-            className="review-rating"
-          />
-        </div>
-      )}
-      <div>
-        <TextField
-          label="コメントを入力してください。"
-          multiline
-          rows={4}
-          value={comment}
-          onChange={handleCommentChange}
-          className="review-input"
-        />
-      </div>
-      <div>
-        <input
-          type="file"
-          multiple
-          onChange={handleImageChange}
-          className="review-img"
-        />
-      </div>
-      <div>
+        }
         <Button variant="contained" type="submit" className="review-submit-btn">
           レビュー
         </Button>
       </div>
-    </form>
+    </form >
   );
 }
 

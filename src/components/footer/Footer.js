@@ -1,3 +1,4 @@
+import * as React from 'react';
 import './Footer.css'
 import PhoneIcon from '@mui/icons-material/Phone';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
@@ -7,14 +8,22 @@ import YouTubeIcon from '@mui/icons-material/YouTube';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import { colors } from '@mui/material';
 import { Link } from 'react-router-dom';
+import { createTheme } from '@material-ui/core/styles';
 
 const Footer = (props) => {
+    const theme = createTheme({
+        typography: {
+            fontFamily: [
+                'Special Elite',
+            ].join(','),
+        },
+    });
     return (
         <div className="footer">
             <div className="footer-top">
                 <div>
-                    <Link style={{ textDecoration: 'none', color: 'black' }} to={'/'}>
-                        <h2>XingtuGym</h2>
+                    <Link to={'/'} className='footer-gymlogo'>
+                        Xingtu<strong>Gym</strong>
                     </Link>
                 </div>
                 <div>

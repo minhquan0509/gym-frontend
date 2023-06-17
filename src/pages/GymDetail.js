@@ -13,6 +13,11 @@ import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import axios from "axios";
 import "../css/detail.css";
+import Header from "../components/header/Header";
+import Footer from "../components/footer/Footer";
+import SimpleImageSlider from 'react-simple-image-slider';
+import { Zoom } from 'react-slideshow-image';
+import 'react-slideshow-image/dist/styles.css';
 
 function GymDetail() {
   const [room, setRoom] = useState({});
@@ -56,13 +61,16 @@ function GymDetail() {
   const handleImageClick = (image) => {
     setSelectedImage(image);
   };
-
+  const handleSetSelectedImage = (image) => {
+    setSelectedImage(image);
+  }
   return (
     <>
+      <Header />
       <Container style={{ paddingTop: "80px", minHeight: 'calc( 100vh - 240px )' }} fixed>
         <Grid container spacing={2}>
-          <Grid item xs={6}>
-            <Breadcrumbs aria-label="breadcrumb">
+          <Grid item xs={4}>
+            <Breadcrumbs aria-label="breadcrumb" style={{ marginBottom: '30px' }}>
               <Link color="inherit" href="/">
                 ホーム
               </Link>
@@ -71,21 +79,39 @@ function GymDetail() {
               </Link>
               <Typography color="text.primary">ルームジム情報</Typography>
             </Breadcrumbs>
-            {selectedImage !== '' && <img src={'http://' + selectedImage} alt="Selected Product" style={{ maxWidth: '500px', height: '400px', width: 'auto', objectFit: 'cover' }} />}
-
-            <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10px', float: 'left' }}>
-              {room.Images ? room.Images.map((item, index) => (
+            <Zoom
+              indicators={
+                () => (
+                  <img
+                    src={'http://' + selectedImage}
+                    alt="Selected Product"
+                    style={{ width: '50px', height: '50px', margin: '0 5px', cursor: 'pointer' }}
+                  />
+                )
+              }
+              scale={1.4}>
+              <div className="each-slide-effect" style={{ width: '100%' }}>
                 <img
-                  key={index}
-                  src={'http://' + item.image}
-                  alt={`Product ${index + 1}`}
-                  style={{ width: '50px', height: '50px', margin: '0 5px', cursor: 'pointer', border: item.image === selectedImage ? '2px solid blue' : 'none' }}
-                  onClick={() => handleImageClick(item.image)}
+                  src={'http://' + selectedImage}
+                  style={{ height: '400px', width: '100%', objectFit: 'cover' }}
                 />
-              )) : null}
-            </div>
+              </div>
+              <div className="each-slide-effect" style={{ width: '100%' }}>
+                <img
+                  src={'http://' + selectedImage}
+                  style={{ height: '400px', width: '100%', objectFit: 'cover' }}
+                />
+              </div>
+              <div className="each-slide-effect" style={{ width: '100%' }}>
+                <img
+                  src={'http://' + selectedImage}
+                  style={{ height: '400px', width: '100%', objectFit: 'cover' }}
+                />
+              </div>
+            </Zoom>
+
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={8} style={{ margin: "50px 0", paddingLeft: "50px" }}>
             <Typography variant="h3">ルームジム情報</Typography>
             <Typography variant="h6" mt={2}>
               Rating: {room.rating ? room.rating : "未登録"}
@@ -139,7 +165,8 @@ function GymDetail() {
           </Link>
 
         </div>
-      </Container>
+      </Container >
+      <Footer />
     </>
   );
 }
