@@ -82,7 +82,7 @@ function SearchPage() {
               >
                 <MenuItem value={{ priceMin: 100000, priceMax: 300000 }} >100k-300k</MenuItem>
                 <MenuItem value={{ priceMin: 300000, priceMax: 500000 }} >300k-500k</MenuItem>
-                <MenuItem value={{ priceMin: 500000, priceMax: '' }} >500k tro len</MenuItem>
+                <MenuItem value={{ priceMin: 500000, priceMax: '' }} >500k 以上</MenuItem>
               </Select>
             </FormControl>
           </Grid>

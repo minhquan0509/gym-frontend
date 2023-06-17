@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
         height: 600,
         position: 'fixed',
         top: '64px !important',
-        right: '200px !important'
+        right: '20px !important'
     },
 }));
 
