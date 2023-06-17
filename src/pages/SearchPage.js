@@ -47,6 +47,7 @@ function SearchPage() {
 
   return (
     <>
+      <Header />
       <Container style={{ paddingTop: '80px', minHeight: 'calc( 100vh - 240px )' }} fixed>
         <Typography variant="h5">検索</Typography>
         <TextField placeholder="名前" rows={1} fullWidth onChange={handleChangeName} />
@@ -118,6 +119,7 @@ function SearchPage() {
             ))}
         </Grid>
       </Container>
+      <Footer />
     </>
   )
 }

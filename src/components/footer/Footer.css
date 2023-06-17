@@ -26,3 +26,10 @@
     display: flex;
     gap: 10px;
 }
+.footer-gymlogo{
+    text-decoration: none;
+    color: black;
+    font-family: 'Special Elite', cursive;
+    font-size: 30px;
+    line-height: 120px;
+}

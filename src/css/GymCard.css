@@ -1,0 +1,9 @@
+.card-havepool{
+    background-color: aqua;
+    width: fit-content;
+    padding: 0 5px;
+    border: 1px solid black;
+    position: absolute;
+    z-index: 10;
+    top: 0;
+}

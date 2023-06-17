@@ -4,3 +4,12 @@
   justify-content: flex-end;
   gap: 10px;
 }
+
+.indicator.active {
+  color: #fff;
+  background: #666;
+}
+
+.react-slideshow-container+ul.indicators{
+  padding: 0;
+}
