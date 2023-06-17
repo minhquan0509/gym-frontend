@@ -3,10 +3,6 @@
   padding: 20px;
 }
 
-/* .review-rating {
-  margin-bottom: -100px;
-} */
-
 .rating {
   display: flex;
   justify-content: space-between;
@@ -15,23 +11,19 @@
 
 .rating-pool {
   display: flex;
-  padding: 20px 0;
-
 }
 
 .review-input {
   width: 100%;
   margin: 30px 0;
 }
-/* 
+
 .review-img {
-  margin-bottom: -95px;
-} */
+  margin: 25px 0;
+}
 
 .review-submit-btn {
-  display: flex;
-  justify-content: flex-end;
-  margin: 20px 0;
+  margin-bottom: 20px;
 }
 
 /* Review List */
