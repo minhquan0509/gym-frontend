@@ -29,7 +29,7 @@ function Homepage() {
     };
 
     fetchData();
-  });
+  }, []);
 
   useEffect(() => {
     if (rooms.length > 0)
