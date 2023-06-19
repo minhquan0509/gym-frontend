@@ -10,13 +10,16 @@ function SearchPage() {
   const { id } = useParams()
   const [name, setName] = useState('');
   const [address, setAddress] = useState('');
-  const [service, setService] = useState('');
+  const [service, setService] = useState([]);
   const [price, setPrice] = useState();
   const [rooms, setRooms] = useState([])
 
   const fetchData = async () => {
     try {
-      const response = await axios.get(`http://localhost:3001/rooms?name=${name}&address=${address}&service=${service}&priceMin=${price ? price.priceMin : ''}&priceMax=${price ? price.priceMax : ''}`);
+      const pool = service.includes('pool');
+      const sauna = service.includes('sauna');
+      const parking = service.includes('parking');
+      const response = await axios.get(`http://localhost:3001/rooms?name=${name}&address=${address}&service[pool]=${pool}&service[sauna]=${sauna}&service[parking]=${parking}&priceMin=${price ? price.priceMin : ''}&priceMax=${price ? price.priceMax : ''}`);
       console.log(response.data.data.rooms)
       await setRooms(response.data.data.rooms)
       console.log('rooms:', rooms)
@@ -38,7 +41,12 @@ function SearchPage() {
   }
 
   const handleChangeService = (event) => {
-    setService(event.target.value)
+    const {
+      target: { value },
+    } = event;
+    setService(
+      typeof value === 'string' ? value.split(',') : value,
+    );
   }
 
   const handleChangePrice = (event) => {
@@ -55,18 +63,7 @@ function SearchPage() {
           <Grid item xs={3}>
             <FormControl fullWidth>
               <InputLabel id="demo-simple-select-label">住所</InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={address}
-                label="Address"
-                onChange={handleChangeAddress}
-                style={{ minWidth: '200px' }}
-              >
-                <MenuItem value={'Ho Chi Minh'}>Ho Chi Minh</MenuItem>
-                <MenuItem value={'Ha noi'}>Ha Noi</MenuItem>
-                <MenuItem value={'Da nang'}>Da Nang</MenuItem>
-              </Select>
+              <TextField placeholder="住所" rows={1} fullWidth onChange={handleChangeAddress} />
             </FormControl>
           </Grid>
           <Grid item xs={3}>
@@ -95,6 +92,7 @@ function SearchPage() {
                 id="demo-simple-select"
                 value={service}
                 label="Service"
+                multiple
                 onChange={handleChangeService}
                 style={{ minWidth: '200px' }}
               >

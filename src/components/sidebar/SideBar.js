@@ -79,7 +79,7 @@ export default function SideBar(props) {
                                 borderTop: '1px solid #676565',
                                 textAlign: 'center'
                             }}
-                            to={''}>ジム登録管理</Link>
+                            to={'/create_gym'}>ジム登録管理</Link>
                     </ListItem>
                 </List>
             </Toolbar>

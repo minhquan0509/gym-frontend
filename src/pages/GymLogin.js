@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import '../css/GymLogin.css';
 import background from '../images/img_login_signup.jpg';
 import { createTheme } from '@material-ui/core/styles';
-import { Button } from '@material-ui/core';
+import { Alert, Button } from '@mui/material';
 import { loginRequest } from '../redux/actions/authActions';
 import { getUser } from '../redux/selectors/authSelectors';
 import { useDispatch, useSelector } from 'react-redux';
@@ -11,6 +11,7 @@ import { redirect, useNavigate } from 'react-router-dom';
 
 function GymLogin() {
     const user = useSelector(state => state.auth.user);
+    const error = useSelector(state => state.auth.error);
     const dispatch = useDispatch();
 
     const [username, setUsername] = useState('');
@@ -57,6 +58,7 @@ function GymLogin() {
                             <input type="text" value={username} onChange={handleChangeUsername} />
                             <div className='login_page-title'>パスワード(Mật khẩu)</div>
                             <input type="password" value={password} onChange={handleChangePassword} />
+                            {error && <Alert severity="error">Login failed</Alert>}
                             <div className='login_page-forgot'>
                                 <Link to="">パスワードをお忘れの方はこちら</Link>
                             </div>

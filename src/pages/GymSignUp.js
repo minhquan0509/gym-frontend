@@ -3,13 +3,22 @@ import '../css/GymLogin.css';
 import '../css/GymSignUp.css';
 import background from '../images/img_login_signup.jpg';
 import { createTheme } from '@material-ui/core/styles';
-import { Button } from '@material-ui/core';
-import * as React from 'react';
+import { Alert, Button, TextField } from '@mui/material';
+import { useState } from 'react';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
+import axios from 'axios';
 
-function GymLogin() {
+function GymSignUp() {
+    const [email, setEmail] = useState('');
+    const [name, setName] = useState('');
+    const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const [role, setRole] = useState('')
+    const [error, setError] = useState();
+    const [noti, setNoti] = useState('')
+
     const theme = createTheme({
         typography: {
             fontFamily: [
@@ -17,6 +26,65 @@ function GymLogin() {
             ].join(','),
         },
     });
+
+    const handleChangeName = (e) => {
+        setName(e.target.value)
+    }
+
+    const handleChangeEmail = (e) => {
+        setEmail(e.target.value)
+    }
+
+    const handleChangePassword = (e) => {
+        setPassword(e.target.value)
+    }
+
+    const handleChangeConfirmPassword = (e) => {
+        setConfirmPassword(e.target.value)
+    }
+
+    const handleChangeRole = (e) => {
+        setRole(e.target.value)
+    }
+
+    const handleSignup = () => {
+        setError('')
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (email.length == 0) {
+            setError('Email is required');
+            return
+        } else if (!emailRegex.test(email)) {
+            setError('Invalid email format');
+            return
+        } else if (password.length < 6) {
+            setError('Password must have at least 6 digits!');
+            return
+        } else if (password !== confirmPassword) {
+            setError('Password do not match!');
+            return
+        } else if (role.length === 0) {
+            setError('You have to pick role')
+            return
+        }
+        
+        if (error || error.length > 0) {
+            return
+        } else {
+            signUp({name, username: email, password, confirmPassword, role})
+        }
+    }
+
+    const signUp = (params) => {
+        try {
+            axios.post(`http://localhost:3001/users/signup`, params)
+                .then(res => res.data)
+                .then(setNoti('Signed up successfully'))
+                .catch(err => setError(err.message))
+        } catch (error) {
+            setError(error.message)
+        }
+    };
+
     return (
         <>
             <div className="login_page">
@@ -25,27 +93,26 @@ function GymLogin() {
                     <div className='login_page-right signup_page-right'>
                         <h1 className='login_page-logo'>XingtuGym</h1>
                         <form >
-                            <div className='login_page-title'>名前(Họ tên)</div>
-                            <input type="text" />
-                            <div className='login_page-title'>メール(Email)</div>
-                            <input type="text" />
-                            <div className='login_page-title'>パスワード(Mật khẩu)</div>
-                            <input type="password" />
-                            <div className='login_page-title'>パスワードを確認する(Nhập lại mật khẩu)</div>
-                            <input type="password" />
+                            <TextField label="名前(Họ tên)" type="text" fullWidth margin="normal" onChange={handleChangeName}/>
+                            <TextField label="メール(Email)" type="email" fullWidth margin="normal" onChange={handleChangeEmail} />
+                            <TextField label="パスワード(Mật khẩu)" type="password" fullWidth margin="normal" onChange={handleChangePassword} />
+                            <TextField label="パスワードを確認する(Nhập lại mật khẩu)" type="password" fullWidth margin="normal" onChange={handleChangeConfirmPassword} />
                             <div className='login_page-title'>あなたは(Bạn là)</div>
                             <InputLabel id="signup_page-role">Role</InputLabel>
                             <Select
                                 labelId="signup_page-role"
                                 style={{ width: '50%', height: '40px' }}
                                 label='Role'
+                                onChange={handleChangeRole}
                             >
-                                <MenuItem value={0}>ユーザー(Người dùng)</MenuItem>
-                                <MenuItem value={1}>ジムのオーナー(Chủ phòng gym)</MenuItem>
+                                <MenuItem value={'user'}>ユーザー(Người dùng)</MenuItem>
+                                <MenuItem value={'gym-owner'}>ジムのオーナー(Chủ phòng gym)</MenuItem>
                             </Select>
                             <div style={{ width: '100%', textAlign: 'right' }}>
-                                <Button variant="contained" color="success" className='btn-signup'>サインアップ</Button>
+                                <Button variant="contained" color="success" className='btn-signup' onClick={handleSignup}>サインアップ</Button>
                             </div>
+                            {error && <Alert severity="error">{error}</Alert>}
+                            {noti && <Alert severity="success">{noti}</Alert>}
                             <div className='login_page-tosignup signup_page-tologin'>
                                 アカウントを持っていますか？
                                 <Link to={`/login`} style={{ textDecoration: 'none' }}> ログイン</Link>
@@ -58,4 +125,4 @@ function GymLogin() {
     )
 }
 
-export default GymLogin;
+export default GymSignUp;

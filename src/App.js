@@ -9,6 +9,7 @@ import Footer from "./components/footer/Footer";
 import { Container } from "@mui/material";
 import GymLogin from "./pages/GymLogin";
 import GymSignUp from "./pages/GymSignUp";
+import AddGym from "./pages/AddGym";
 
 
 
@@ -22,6 +23,7 @@ function App() {
           <Route path="/gym/:id" element={<GymDetail />} />
           <Route path="/gym/:id/review" element={<GymReview />} />
           <Route path="/search" element={<SearchPage />} />
+          <Route path="/create_gym" element={<AddGym />}/>
         </Routes>
         <Routes>
           <Route path="/login" element={<GymLogin />} />
