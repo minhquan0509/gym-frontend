@@ -1,4 +1,4 @@
-import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE } from "../types/authTypes";
+import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT } from "../types/authTypes";
 
 const initialState = {
     user: null,
@@ -30,6 +30,8 @@ const initialState = {
           loading: false,
           error: action.payload
         };
+      case LOGOUT:
+        return initialState;
       default:
         return state;
     }

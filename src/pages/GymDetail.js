@@ -18,8 +18,10 @@ import Footer from "../components/footer/Footer";
 import SimpleImageSlider from 'react-simple-image-slider';
 import { Zoom } from 'react-slideshow-image';
 import 'react-slideshow-image/dist/styles.css';
+import { useSelector } from "react-redux";
 
 function GymDetail() {
+  const user = useSelector(state => state.auth.user);
   const [room, setRoom] = useState({});
   const [selectedImage, setSelectedImage] = useState(room.Images ? room.Images[0].image : '');
   const [open, setOpen] = useState(false);
@@ -136,6 +138,7 @@ function GymDetail() {
             </Link>
           </Grid>
         </Grid>
+        { user && user.id === room.owner_id &&
         <div className="owner-button">
           <Button variant="contained" color="error" onClick={handleOpen} className="button-delete">
             削除
@@ -163,8 +166,8 @@ function GymDetail() {
               編集
             </Button>
           </Link>
-
         </div>
+        }
       </Container >
       <Footer />
     </>

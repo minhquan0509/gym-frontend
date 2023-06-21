@@ -27,10 +27,13 @@ import { Link } from 'react-router-dom'
 import './Header.css'
 import SideBar from '../sidebar/SideBar';
 import { createTheme } from '@material-ui/core/styles';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { logout } from '../../redux/actions/authActions';
 
 export default function Header() {
   const user = useSelector(state => state.auth.user);
+  const dispatch = useDispatch();
+
   const theme = createTheme({
     typography: {
       fontFamily: [
@@ -50,10 +53,15 @@ export default function Header() {
     setAnchorEl(null);
   };
 
-
   const handleToggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
   };
+
+  const handleLogout = () => {
+    localStorage.removeItem('user');
+    localStorage.removeItem('token');
+    dispatch(logout());
+  }
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -112,7 +120,7 @@ export default function Header() {
                     <span>パスワードを変更する</span>
                     <ChevronRightIcon className='account-popup-blue' />
                   </MenuItem>
-                  <MenuItem onClick={handleClose} className='account-popup-bottom'>
+                  <MenuItem onClick={handleLogout} className='account-popup-bottom'>
                     <LogoutIcon className='account-popup-blue' />
                     <span>ログアウト</span>
                   </MenuItem>

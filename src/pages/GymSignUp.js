@@ -4,7 +4,7 @@ import '../css/GymSignUp.css';
 import background from '../images/img_login_signup.jpg';
 import { createTheme } from '@material-ui/core/styles';
 import { Alert, Button, TextField } from '@mui/material';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
@@ -16,7 +16,7 @@ function GymSignUp() {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [role, setRole] = useState('')
-    const [error, setError] = useState();
+    const [error, setError] = useState(null);
     const [noti, setNoti] = useState('')
 
     const theme = createTheme({
@@ -47,8 +47,9 @@ function GymSignUp() {
         setRole(e.target.value)
     }
 
-    const handleSignup = () => {
-        setError('')
+    const handleSignup = async () => {
+        setError(null)
+        setNoti(null);
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (email.length == 0) {
             setError('Email is required');
@@ -65,23 +66,19 @@ function GymSignUp() {
         } else if (role.length === 0) {
             setError('You have to pick role')
             return
-        }
-        
-        if (error || error.length > 0) {
-            return
         } else {
-            signUp({name, username: email, password, confirmPassword, role})
+            await signUp({name, username: email, password, confirmPassword, role})
+            return
         }
     }
 
-    const signUp = (params) => {
+    const signUp = async (params) => {
         try {
-            axios.post(`http://localhost:3001/users/signup`, params)
-                .then(res => res.data)
-                .then(setNoti('Signed up successfully'))
-                .catch(err => setError(err.message))
+            await axios.post(`http://localhost:3001/users/signup`, params)
+            setNoti('Signed up successfully')
         } catch (error) {
-            setError(error.message)
+            const message = error.response.data.message
+            setError(message)
         }
     };
 
