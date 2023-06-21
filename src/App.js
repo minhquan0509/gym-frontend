@@ -10,26 +10,27 @@ import { Container } from "@mui/material";
 import GymLogin from "./pages/GymLogin";
 import GymSignUp from "./pages/GymSignUp";
 import AddGym from "./pages/AddGym";
+import EditGym from "./pages/EditGym";
 import store from "./redux/store";
 import { loginSuccess } from "./redux/actions/authActions";
 
 function App() {
-  const user = JSON.parse(localStorage.getItem('user'));
-  const token = localStorage.getItem('token');
+  const user = JSON.parse(localStorage.getItem("user"));
+  const token = localStorage.getItem("token");
   if (user && token) {
     // Dispatch the loginSuccess action with the retrieved user and token
     store.dispatch(loginSuccess(user, token));
   }
   return (
-
     <Router>
-      <Container style={{ minHeight: '100vh', maxWidth: '1500px' }}>
+      <Container style={{ minHeight: "100vh", maxWidth: "1500px" }}>
         <Routes>
           <Route path="/" element={<Homepage />} />
           <Route path="/gym/:id" element={<GymDetail />} />
           <Route path="/gym/:id/review" element={<GymReview />} />
           <Route path="/search" element={<SearchPage />} />
-          <Route path="/create_gym" element={<AddGym />}/>
+          <Route path="/create_gym" element={<AddGym />} />
+          <Route path="/gym/:id/editgym" element={<EditGym />} />
         </Routes>
         <Routes>
           <Route path="/login" element={<GymLogin />} />

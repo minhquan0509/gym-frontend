@@ -17,8 +17,9 @@ import addGymSchema from "../validation/addGym";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useSelector } from "react-redux";
 
-function AddGym() {
+function EditGym(props) {
   const user = useSelector((state) => state.auth.user);
+  const { id: gymId } = useParams();
   const ITEM_HEIGHT = 48;
   const ITEM_PADDING_TOP = 8;
   const MenuProps = {
@@ -30,20 +31,42 @@ function AddGym() {
     },
   };
   const theme = useTheme();
+  const [ownerName, setOwnerName] = useState("");
+  const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [address, setAddress] = useState("");
+  const [phone, setPhone] = useState("");
   const [price, setPrice] = useState("");
-
   const [service, setService] = useState([]);
   const names = ["Hồ bơi", "Xông hơi", "Bãi đỗ xe"];
 
+  const getSelectedServices = (room) => {
+    let result = [];
+
+    if (room.pool) {
+      result.push(names[0]);
+    }
+
+    if (room.sauna) {
+      result.push(names[1]);
+    }
+
+    if (room.parking) {
+      result.push(names[2]);
+    }
+
+    return result;
+  };
+
   function getStyles(name, service, theme) {
-    return {
-      fontWeight:
-        service.indexOf(name) === -1
-          ? theme.typography.fontWeightRegular
-          : theme.typography.fontWeightMedium,
-    };
+    if (typeof value === "string") {
+      return {
+        fontWeight:
+          service.indexOf(name) === -1
+            ? theme.typography.fontWeightRegular
+            : theme.typography.fontWeightMedium,
+      };
+    }
   }
 
   const handleChange = (event) => {
@@ -67,8 +90,43 @@ function AddGym() {
   const [previewImage, setPreviewImage] = useState();
 
   useEffect(() => {
+    const fetchData = async () => {
+      if (gymId) {
+        try {
+          const res = await axios.get(`http://localhost:3001/rooms/${gymId}`);
+          const room = res.data.data.room;
+          setSelectedImages(
+            room.Images.map((image) => "http://" + image.image)
+          );
+
+          setName(room.name);
+          setEmail(room.email);
+          setOwnerName(room.ownerName);
+
+          setAddress(room.address);
+          setPhone(room.phone);
+          setService(getSelectedServices(room));
+          setPrice(room.price);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    };
+
+    fetchData();
+  }, [gymId]);
+
+  useEffect(() => {
     setPreviewImage(selectedImages[0]);
   }, [selectedImages]);
+
+  const handleChangeOwnerName = (event) => {
+    setOwnerName(event.target.value);
+  };
+
+  const handleChangeEmail = (event) => {
+    setEmail(event.target.value);
+  };
 
   const handleChangeName = (event) => {
     setName(event.target.value);
@@ -76,6 +134,10 @@ function AddGym() {
 
   const handleChangeAddress = (event) => {
     setAddress(event.target.value);
+  };
+
+  const handleChangePhone = (event) => {
+    setPhone(event.target.value);
   };
 
   const handleChangePrice = (event) => {
@@ -86,7 +148,7 @@ function AddGym() {
     fileInputRef.current.click();
   };
 
-  const handleAddGym = async (e) => {
+  const handleEditGym = async (e) => {
     e.preventDefault();
     const formData = new FormData();
     for (let i = 0; i < selectedImages.length; i++) {
@@ -207,22 +269,31 @@ function AddGym() {
         )}
       </div>
       <div className="form">
-        <span className="title">Đăng kí thông tin phòng gym</span>
-        <form onSubmit={handleAddGym}>
+        <span className="title">Chỉnh sửa thông tin phòng gym</span>
+        <form onSubmit={handleEditGym}>
           <div className="input-item">
             <div className="label">Tên chủ phòng gym</div>
-            <input className={`input`} />
-            {/* value = {room.ownerName} ???? error*/}
+            <input
+              className={`input`}
+              value={ownerName}
+              onChange={handleChangeOwnerName}
+            />
           </div>
           <div className="input-item">
             <div className="label">Email</div>
-            <input type="text" className={`input`} />
+            <input
+              type="text"
+              className={`input`}
+              value={email}
+              onChange={handleChangeAddress}
+            />
           </div>
           <div className="input-item">
             <div className="label">Tên phòng gym</div>
             <input
               type="text"
               className={`input`}
+              value={name}
               onChange={handleChangeName}
             />
           </div>
@@ -231,18 +302,25 @@ function AddGym() {
             <input
               type="text"
               className={`input`}
+              value={address}
               onChange={handleChangeAddress}
             />
           </div>
           <div className="input-item">
             <div className="label">Số điện thoại</div>
-            <input type="number" className={`input`} />
+            <input
+              type="number"
+              className={`input`}
+              value={phone}
+              onChange={handleChangePhone}
+            />
           </div>
           <div className="input-item">
             <div className="label">Mức giá 1 tháng (vnđ)</div>
             <input
               type="number"
               className={`input`}
+              value={price}
               onChange={handleChangePrice}
             />
           </div>
@@ -280,7 +358,7 @@ function AddGym() {
             </FormControl>
           </div>
           <Button className="button" type="submit">
-            Đăng kí
+            Chỉnh sửa
           </Button>
         </form>
       </div>
@@ -288,4 +366,4 @@ function AddGym() {
   );
 }
 
-export default AddGym;
+export default EditGym;
