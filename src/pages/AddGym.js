@@ -15,26 +15,10 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { useForm, Controller } from "react-hook-form";
 import addGymSchema from "../validation/addGym";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useSelector } from "react-redux";
 
 function AddGym() {
-  const { id } = useParams();
-  const {
-    handleSubmit,
-    control,
-    reset,
-    formState: { errors },
-    setError,
-  } = useForm({
-    defaultValues: {
-      ownerName: "",
-      email: "",
-      name: "",
-      address: "",
-      phone: "",
-      price: "",
-    },
-    resolver: yupResolver(addGymSchema),
-  });
+  const user = useSelector(state => state.auth.user);
   const ITEM_HEIGHT = 48;
   const ITEM_PADDING_TOP = 8;
   const MenuProps = {
@@ -46,9 +30,12 @@ function AddGym() {
     },
   };
   const theme = useTheme();
+  const [name, setName] = useState('');
+  const [address, setAddress] = useState('');
+  const [price, setPrice] = useState('');
+
   const [service, setService] = useState([]);
   const names = ["Hồ bơi", "Xông hơi", "Bãi đỗ xe"];
-  const [formData, setFormData] = useState();
 
   function getStyles(name, service, theme) {
     return {
@@ -71,22 +58,20 @@ function AddGym() {
   const fileInputRef = useRef(null);
 
   const handleImageUpload = (event) => {
-    const files = event.target.files;
-    if (files && files.length > 0) {
-      const imageUrls = [];
-      for (let i = 0; i < files.length; i++) {
-        const file = files[i];
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          imageUrls.push(reader.result);
-          if (imageUrls.length === files.length) {
-            setSelectedImages(imageUrls);
-          }
-        };
-        reader.readAsDataURL(file);
-      }
-    }
+    setSelectedImages([...event.target.files]);
   };
+
+  const handleChangeName = (event) => {
+    setName(event.target.value)
+  }
+
+  const handleChangeAddress = (event) => {
+    setAddress(event.target.value)
+  }
+
+  const handleChangePrice = (event) => {
+    setPrice(event.target.value)
+  }
 
   const handleAddIconClick = () => {
     fileInputRef.current.click();
@@ -94,11 +79,26 @@ function AddGym() {
 
   const handleAddGym = async (e) => {
     e.preventDefault();
-
+    const formData = new FormData();
+    for (let i = 0; i < selectedImages.length; i++) {
+      formData.append('images', selectedImages[i]);
+    }
+    formData.append('name', name);
+    formData.append('address', address);
+    formData.append('price', price);
+    formData.append('owner_id', user.id)
+    formData.append('pool', service.includes('Hồ bơi'));
+    formData.append('sauna', service.includes('Xông hơi'));
+    formData.append('parking', service.includes('Bãi đỗ xe'));
     try {
       const res = await axios.post(
-        `http://localhost:3001/rooms/${id}`,
-        formData
+        `http://localhost:3001/rooms/`,
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        }
       );
       console.log(res.data);
       // Thực hiện các hành động khác sau khi cập nhật thành công
@@ -159,115 +159,33 @@ function AddGym() {
       </div>
       <div className="form">
         <span className="title">Đăng kí thông tin phòng gym</span>
-        <form onSubmit={handleSubmit(handleAddGym)}>
+        <form onSubmit={handleAddGym}>
           <div className="input-item">
             <div className="label">Tên chủ phòng gym</div>
-            <Controller
-              name="ownerName"
-              control={control}
-              render={({ field: { ref, ...rest } }) => (
-                <input
-                  {...rest}
-                  className={`input ${
-                    errors.ownerName?.message ? "input-error" : ""
-                  }`}
-                />
-              )}
-            />
-            {errors.ownerName?.message && (
-              <div className="error">{errors.ownerName.message}</div>
-            )}
+              <input
+                className={`input`}
+              />
             {/* value = {room.ownerName} ???? error*/}
           </div>
           <div className="input-item">
             <div className="label">Email</div>
-            <Controller
-              name="email"
-              control={control}
-              render={({ field: { ref, ...rest } }) => (
-                <input
-                  {...rest}
-                  className={`input ${
-                    errors.email?.message ? "input-error" : ""
-                  }`}
-                />
-              )}
-            />
-            {errors.email?.message && (
-              <div className="error">{errors.email.message}</div>
-            )}
+              <input type="text" className={`input`}/>
           </div>
           <div className="input-item">
             <div className="label">Tên phòng gym</div>
-            <Controller
-              name="name"
-              control={control}
-              render={({ field: { ref, ...rest } }) => (
-                <input
-                  {...rest}
-                  className={`input ${
-                    errors.name?.message ? "input-error" : ""
-                  }`}
-                />
-              )}
-            />
-            {errors.name?.message && (
-              <div className="error">{errors.name.message}</div>
-            )}
+            <input type="text" className={`input`} onChange={handleChangeName}/>
           </div>
           <div className="input-item">
             <div className="label">Địa chỉ</div>
-            <Controller
-              name="address"
-              control={control}
-              render={({ field: { ref, ...rest } }) => (
-                <input
-                  {...rest}
-                  className={`input ${
-                    errors.address?.message ? "input-error" : ""
-                  }`}
-                />
-              )}
-            />
-            {errors.address?.message && (
-              <div className="error">{errors.address.message}</div>
-            )}
+            <input type="text" className={`input`} onChange={handleChangeAddress}/>
           </div>
           <div className="input-item">
             <div className="label">Số điện thoại</div>
-            <Controller
-              name="phone"
-              control={control}
-              render={({ field: { ref, ...rest } }) => (
-                <input
-                  {...rest}
-                  className={`input ${
-                    errors.phone?.message ? "input-error" : ""
-                  }`}
-                />
-              )}
-            />
-            {errors.phone?.message && (
-              <div className="error">{errors.phone.message}</div>
-            )}
+            <input type="number" className={`input`}/>
           </div>
           <div className="input-item">
             <div className="label">Mức giá 1 tháng (vnđ)</div>
-            <Controller
-              name="price"
-              control={control}
-              render={({ field: { ref, ...rest } }) => (
-                <input
-                  {...rest}
-                  className={`input ${
-                    errors.price?.message ? "input-error" : ""
-                  }`}
-                />
-              )}
-            />
-            {errors.price?.message && (
-              <div className="error">{errors.price.message}</div>
-            )}
+            <input type="number" className={`input`} onChange={handleChangePrice}/>
           </div>
           <div className="service">
             <FormControl sx={{ m: 1, width: 300 }}>
