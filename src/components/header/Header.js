@@ -27,8 +27,10 @@ import { Link } from 'react-router-dom'
 import './Header.css'
 import SideBar from '../sidebar/SideBar';
 import { createTheme } from '@material-ui/core/styles';
+import { useSelector } from 'react-redux';
 
 export default function Header() {
+  const user = useSelector(state => state.auth.user);
   const theme = createTheme({
     typography: {
       fontFamily: [
@@ -68,10 +70,9 @@ export default function Header() {
             </Link>
           </Typography>
           <Box sx={{ flexGrow: 1 }} />
-          {auth && (
-            <div>
-              {/* 
-              // Avartar User
+          {user ? 
+          <div style={{color: 'black'}}>
+              {user.name}
               <IconButton
                 size="large"
                 edge="end"
@@ -101,7 +102,7 @@ export default function Header() {
                 <div className='account-popup'>
                   <div className='account-popup-top'>
                     <AccountCircle />
-                    <span>アドミン</span>
+                    <span>{user.name}</span>
                   </div>
                   <div className='account-popup-title account-popup-blue'>
                     <span>プロファイル</span>
@@ -117,7 +118,9 @@ export default function Header() {
                   </MenuItem>
                 </div>
               </Menu>
-              */}
+            </div>
+            :
+            <>
               <Button variant="text">
                 <Link
                   to={`/login`}
@@ -131,8 +134,8 @@ export default function Header() {
                   style={{ textDecoration: 'none', fontSize: '20px', color: 'white' }}
                 >サインアップ</Link>
               </Button>
-            </div>
-          )}
+            </>
+          }
 
           <IconButton
             size="large"

@@ -14,6 +14,8 @@ function* loginSaga(action) {
     // Dispatch success action
     const token = response.token;
     const currentUser = response.data.currentUser
+    localStorage.setItem('user', JSON.stringify(currentUser));
+    localStorage.setItem('token', token);
     yield put(loginSuccess(currentUser, token));
   } catch (error) {
     // Dispatch failure action
