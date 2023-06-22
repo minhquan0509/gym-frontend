@@ -162,7 +162,7 @@ function EditGym(props) {
     formData.append("sauna", service.includes("Xông hơi"));
     formData.append("parking", service.includes("Bãi đỗ xe"));
     try {
-      const res = await axios.post(`http://localhost:3001/rooms/`, formData, {
+      const res = await axios.patch(`http://localhost:3001/rooms/${gymId}`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
