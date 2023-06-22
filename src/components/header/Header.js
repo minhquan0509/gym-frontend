@@ -144,7 +144,7 @@ export default function Header() {
               </Button>
             </>
           }
-
+          { user &&
           <IconButton
             size="large"
             edge="start"
@@ -156,6 +156,7 @@ export default function Header() {
             <MenuIcon
               style={{ color: 'black', fontSize: '50px' }} />
           </IconButton>
+          }
 
         </Toolbar>
       </AppBar>

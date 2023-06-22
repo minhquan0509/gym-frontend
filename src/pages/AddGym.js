@@ -8,9 +8,9 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import Chip from "@mui/material/Chip";
 import "../css/addGym.css";
-import { Button, IconButton } from "@mui/material";
+import { Button, IconButton, Alert } from "@mui/material";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { useForm, Controller } from "react-hook-form";
 import addGymSchema from "../validation/addGym";
@@ -19,6 +19,7 @@ import { useSelector } from "react-redux";
 
 function AddGym() {
   const user = useSelector((state) => state.auth.user);
+  const navigate = useNavigate();
   const ITEM_HEIGHT = 48;
   const ITEM_PADDING_TOP = 8;
   const MenuProps = {
@@ -33,6 +34,7 @@ function AddGym() {
   const [name, setName] = useState("");
   const [address, setAddress] = useState("");
   const [price, setPrice] = useState("");
+  const [noti, setNoti] = useState("");
 
   const [service, setService] = useState([]);
   const names = ["Hồ bơi", "Xông hơi", "Bãi đỗ xe"];
@@ -106,6 +108,10 @@ function AddGym() {
         },
       });
       console.log(res.data);
+      setNoti("Added successfully")
+      setTimeout(() => {
+        navigate('/');
+      }, 1000)
       // Thực hiện các hành động khác sau khi cập nhật thành công
     } catch (error) {
       console.log(error);
@@ -282,6 +288,7 @@ function AddGym() {
           <Button className="button" type="submit">
             Đăng kí
           </Button>
+          {noti && <Alert severity="success">{noti}</Alert>}
         </form>
       </div>
     </div>

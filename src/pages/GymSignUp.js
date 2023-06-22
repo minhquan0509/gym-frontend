@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import '../css/GymLogin.css';
 import '../css/GymSignUp.css';
 import background from '../images/img_login_signup.jpg';
@@ -18,6 +18,8 @@ function GymSignUp() {
     const [role, setRole] = useState('')
     const [error, setError] = useState(null);
     const [noti, setNoti] = useState('')
+
+    const navigate = useNavigate();
 
     const theme = createTheme({
         typography: {
@@ -76,6 +78,9 @@ function GymSignUp() {
         try {
             await axios.post(`http://localhost:3001/users/signup`, params)
             setNoti('Signed up successfully')
+            setTimeout(() => {
+                navigate('/login')
+            }, 1000)
         } catch (error) {
             const message = error.response.data.message
             setError(message)
