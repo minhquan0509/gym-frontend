@@ -12,9 +12,6 @@ import { Button, IconButton, Alert } from "@mui/material";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import { useForm, Controller } from "react-hook-form";
-import addGymSchema from "../validation/addGym";
-import { yupResolver } from "@hookform/resolvers/yup";
 import { useSelector } from "react-redux";
 
 function AddGym() {
@@ -57,19 +54,22 @@ function AddGym() {
 
   // Select ảnh
   const [selectedImages, setSelectedImages] = useState([]);
+  const [showImages, setShowImages] = useState([]);
   const fileInputRef = useRef(null);
 
   const handleImageUpload = (event) => {
-    // setSelectedImages([...event.target.files]);
+    setSelectedImages([...selectedImages, ...event.target.files]);
     const files = Array.from(event.target.files);
     const newImages = files.map((file) => URL.createObjectURL(file));
-    setSelectedImages((prevImages) => [...prevImages, ...newImages]);
+    setShowImages((prevImages) => [...prevImages, ...newImages]);
   };
 
   const [previewImage, setPreviewImage] = useState();
 
   useEffect(() => {
-    setPreviewImage(selectedImages[0]);
+    if(selectedImages.length > 0) {
+      setPreviewImage(URL.createObjectURL(selectedImages[0]));
+    }
   }, [selectedImages]);
 
   const handleChangeName = (event) => {
@@ -121,10 +121,10 @@ function AddGym() {
   const removeSelectedImage = (index) => {
     if (index > -1) {
       let temp = [...selectedImages];
-
       temp.splice(index, 1);
 
       setSelectedImages(temp);
+      setShowImages(temp.map(item => URL.createObjectURL(item)));
     }
   };
 
@@ -141,11 +141,11 @@ function AddGym() {
             />
           )}
         </div>
-        {selectedImages.length > 0 ? (
+        {showImages.length > 0 ? (
           <>
             <div className="img-slider">
               <div className="img-list">
-                {selectedImages.map((imageUrl, index) => (
+                {showImages.map((imageUrl, index) => (
                   <div
                     className={`thumbnail ${
                       imageUrl === previewImage ? "selected" : ""
