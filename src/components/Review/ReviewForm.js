@@ -1,30 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { TextField, Button, Rating } from "@mui/material";
 import "../../css/review.css";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import AttachFileIcon from '@mui/icons-material/AttachFile';
+import { useSelector } from "react-redux";
 
-function ReviewForm() {
+function ReviewForm({havePool, fetchComment}) {
+  const token = useSelector(state => state.auth.token);
   const [rating, setRating] = useState(0);
   const [ratingPool, setRatingPool] = useState(0);
   const [comment, setComment] = useState("");
   const [images, setImages] = useState([]);
-  const [havePool, setHavePool] = useState(false);
   const { id } = useParams();
-
-  async function getPool() {
-    try {
-      const res = await axios.get(`http://localhost:3001/rooms/${id}`);
-      if (res.data.data.room.pool) {
-        setHavePool(true);
-      }
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  }
-
-  getPool();
 
   const handleRatingChange = (event, value) => {
     setRating(value);
@@ -39,38 +27,32 @@ function ReviewForm() {
   };
 
   const handleImageChange = (event) => {
-    const files = event.target.files;
-    const selectedImages = [];
-    for (let i = 0; i < files.length; i++) {
-      selectedImages.push(files[i]);
-    }
-    setImages(selectedImages);
+    setImages([...images, ...event.target.files]);
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     // Xử lý submit review
-    console.log("Rating:", rating);
-    console.log("Rating Pool:", ratingPool);
-    console.log("Comment:", comment);
-    console.log("Selected File:", images);
 
-    // try {
-    //   const res = await axios.post("http://localhost:3001/rooms/review", {
-    //     id,    //id room
-    //     userId,
-    //     rating,
-    //     ratingPool,
-    //     comment,
-    //     images,
-    //   });
-    //   setComment("");
-    //   setImages([]);
-    //   setRating();
-    //   setRatingPool();
-    // } catch (error) {
-    //   console.log(error);
-    // }
+    const formData = new FormData();
+    for (let i = 0; i < images.length; i++) {
+      formData.append("images", images[i]);
+    }
+    formData.append("rating", rating);
+    formData.append("poolRating", ratingPool);
+    formData.append("review", comment);
+
+    try {
+      const res = await axios.post(`http://localhost:3001/rooms/${id}/reviews`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          "Authorization": "Bearer " + token
+        },
+      });
+      fetchComment()
+    } catch (error) {
+      console.log(error);
+    }
 
     setComment("");
     setImages([]);
@@ -94,7 +76,7 @@ function ReviewForm() {
             name="rating"
             value={rating}
             onChange={handleRatingChange}
-            precision={0.5}
+            precision={1}
             className="review-rating"
           />
           <div>
@@ -121,7 +103,7 @@ function ReviewForm() {
               name="rating-pool"
               value={ratingPool}
               onChange={handleRatingPoolChange}
-              precision={0.5}
+              precision={1}
               className="review-rating"
             />
           </div>
