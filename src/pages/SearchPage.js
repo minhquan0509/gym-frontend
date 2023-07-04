@@ -16,10 +16,21 @@ function SearchPage() {
 
   const fetchData = async () => {
     try {
+      const params = {
+        name: name,
+        address: address
+      };
       const pool = service.includes('pool');
       const sauna = service.includes('sauna');
       const parking = service.includes('parking');
-      const response = await axios.get(`http://localhost:3001/rooms?name=${name}&address=${address}&service[pool]=${pool}&service[sauna]=${sauna}&service[parking]=${parking}&priceMin=${price ? price.priceMin : ''}&priceMax=${price ? price.priceMax : ''}`);
+      if(pool) params['service[pool]'] = true;
+      if(sauna) params['service[sauna]'] = true;
+      if(parking) params['service[parking]'] = true;
+
+      // const response = await axios.get(`http://localhost:3001/rooms?name=${name}&address=${address}&service[pool]=${pool}&service[sauna]=${sauna}&service[parking]=${parking}&priceMin=${price ? price.priceMin : ''}&priceMax=${price ? price.priceMax : ''}`);
+      const response = await axios.get(`http://localhost:3001/rooms`, {
+        params
+      });
       console.log(response.data.data.rooms)
       await setRooms(response.data.data.rooms)
       console.log('rooms:', rooms)
