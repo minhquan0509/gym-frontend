@@ -20,6 +20,7 @@ import { useParams } from "react-router-dom";
 
 function SampleReview({review, havePool}) {
   const { id } = useParams();
+  const date = new Date(review.createdAt).toLocaleString();
 
   const sampleAvatarUrl = "https://example.com/avatar.jpg";
 
@@ -69,27 +70,6 @@ function SampleReview({review, havePool}) {
               {review.review}
             </Typography>
             <Grid>
-              {/* <img
-                src={sampleImageUrl}
-                alt="Review Image"
-                width="80"
-                height="80"
-                className="reviewedImg"
-              />
-              <img
-                src={sampleImageUrl}
-                alt="Review Image"
-                width="80"
-                height="80"
-                className="reviewedImg"
-              />
-              <img
-                src={sampleImageUrl}
-                alt="Review Image"
-                width="80"
-                height="80"
-                className="reviewedImg"
-              /> */}
               {review.ReviewImages && review.ReviewImages.map(item => (
                 <img
                 src={'http://' + item.image}
@@ -114,7 +94,7 @@ function SampleReview({review, havePool}) {
                   size="small" />
               </div>
             )}
-            <div>投稿日：{review.createdAt}</div>
+            <div>投稿日：{date}</div>
           </div>
           <div>
             <IconButton

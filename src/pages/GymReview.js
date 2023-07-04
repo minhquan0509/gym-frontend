@@ -15,7 +15,7 @@ function GymReview() {
   const fetchComment = async () => {
     try {
       const response = await axios.get(`http://localhost:3001/rooms/${id}/reviews`);
-      setReviews(response.data.data.reviews);
+      setReviews(response.data.data.reviews.reverse());
     } catch (error) {
       console.error("Error fetching data:", error);
     }
