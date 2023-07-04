@@ -7,7 +7,8 @@ import {
   DialogActions,
   DialogTitle,
   Dialog,
-  Breadcrumbs
+  Breadcrumbs,
+  Rating
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
@@ -72,15 +73,6 @@ function GymDetail() {
       <Container style={{ paddingTop: "80px", minHeight: 'calc( 100vh - 240px )' }} fixed>
         <Grid container spacing={2}>
           <Grid item xs={4}>
-            <Breadcrumbs aria-label="breadcrumb" style={{ marginBottom: '30px' }}>
-              <Link color="inherit" href="/">
-                ホーム
-              </Link>
-              <Link color="inherit" href="/">
-                カテゴリー
-              </Link>
-              <Typography color="text.primary">ルームジム情報</Typography>
-            </Breadcrumbs>
             <Zoom
               indicators={
                 () => (
@@ -115,8 +107,12 @@ function GymDetail() {
           </Grid>
           <Grid item xs={8} style={{ margin: "50px 0", paddingLeft: "50px" }}>
             <Typography variant="h3">ルームジム情報</Typography>
+            <Typography ml={50} variant="subtitle1" gutterBottom>
+              {room.lastLogin ? 'Owner last login: ' + new Date(room.lastLogin).toLocaleString() : ''}
+            </Typography>
             <Typography variant="h6" mt={2}>
-              Rating: {room.rating ? room.rating : "未登録"}
+              Rating: {room.rating ? 
+              <Rating name="read-only" value={room.rating} readOnly /> : "未登録"}
             </Typography>
             <Typography variant="h6" mt={2}>
               - ジム名: {room.name}

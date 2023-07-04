@@ -62,7 +62,7 @@ function SearchPage() {
         <Grid container spacing={3} marginTop={'20px'}>
           <Grid item xs={3}>
             <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-label">住所</InputLabel>
+              {/* <InputLabel id="demo-simple-select-label">住所</InputLabel> */}
               <TextField placeholder="住所" rows={1} fullWidth onChange={handleChangeAddress} />
             </FormControl>
           </Grid>
