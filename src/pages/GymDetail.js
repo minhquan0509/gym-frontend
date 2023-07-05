@@ -46,7 +46,6 @@ function GymDetail() {
   useEffect(() => {
     if (room) {
       setSelectedImage(room.Images ? room.Images[0].image : ''); // Set the other state based on the API data
-      console.log("check>>>>", selectedImage);
     }
   }, [room])
 
@@ -69,6 +68,7 @@ function GymDetail() {
   const handleSetSelectedImage = (image) => {
     setSelectedImage(image);
   }
+  console.log("room:", room.pool);
   return (
     <>
       <Header />
@@ -85,47 +85,39 @@ function GymDetail() {
               <Typography color="text.primary">ルームジム情報</Typography>
             </Breadcrumbs>
             <Zoom
+              //use map to render images with indicators
               indicators={
-                () => (
+                () =>
                   <img
                     src={'http://' + selectedImage}
                     alt="Selected Product"
                     style={{ width: '100px', height: '100px', margin: '0 5px', cursor: 'pointer' }}
                   />
-                )
               }
               scale={1.4}>
-              <div className="each-slide-effect" style={{ width: '100%' }}>
-                <img
-                  src={'http://' + selectedImage}
-                  style={{ height: '400px', width: '100%', objectFit: 'cover' }}
-                />
-              </div>
-              <div className="each-slide-effect" style={{ width: '100%' }}>
-                <img
-                  src={'http://' + selectedImage}
-                  style={{ height: '400px', width: '100%', objectFit: 'cover' }}
-                />
-              </div>
-              <div className="each-slide-effect" style={{ width: '100%' }}>
-                <img
-                  src={'http://' + selectedImage}
-                  style={{ height: '400px', width: '100%', objectFit: 'cover' }}
-                />
-              </div>
+              {
+                room.Images && room.Images.map((image, index) => (
+                  <div className="each-slide-effect" style={{ width: '100%' }}>
+                    <img
+                      src={'http://' + image.image}
+                      style={{ height: '400px', width: '100%', objectFit: 'cover' }}
+                    />
+                  </div>
+                ))
+              }
             </Zoom>
 
           </Grid>
           <Grid item xs={8} style={{ margin: "50px 0", paddingLeft: "50px" }}>
             <Typography variant="h3">ルームジム情報</Typography>
             <Typography variant="h6" mt={2} style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <div>ジムの評価 &nbsp;&nbsp;&nbsp;<u>4.8</u><StarOutlineIcon /></div>
-              <div>プールの評価 &nbsp;&nbsp;&nbsp;<u>3.9</u><StarOutlineIcon /></div>
+              <div style={{ display: 'flex', }} >ジムの評価 &nbsp;&nbsp;&nbsp;<u>{Math.round(room.rating * 10) / 10}</u><StarOutlineIcon style={{ alignSelf: 'center', }} /></div>
+              <div style={{ display: 'flex', }}>プールの評価 &nbsp;&nbsp;&nbsp;<u>3.9</u><StarOutlineIcon style={{ alignSelf: 'center', }} /></div>
             </Typography>
             <Typography variant="h6" mt={2} style={{ display: 'flex', justifyContent: 'end' }}>
-              <div>
-                <PanoramaFishEyeIcon style={{ color: 'rgb(0, 164, 243)' }} />&nbsp;
-                2023年6月20日
+              <div style={{ display: 'flex', }}>
+                <PanoramaFishEyeIcon style={{ color: 'rgb(0, 164, 243)', alignSelf: 'center' }} />&nbsp;
+                {user.lastLogin ? user.lastLogin : '2021-10-10'}
               </div>
             </Typography>
             <Typography variant="h6" mt={2}>
@@ -144,7 +136,11 @@ function GymDetail() {
               - 一ヶ月の登録料金：{room.price}
             </Typography>
             <Typography variant="h6" mt={2} mb={2}>
-              - サービス：{room.service}
+              - サービス：
+              {room.pool ? 'プール　' : ''}
+              {room.sauna ? 'スパサウナ室　' : ''}
+              {room.parking ? '駐車場　' : ''}
+
             </Typography>
             <Link to={`review`}>
               <Button variant="contained">レビューを表示して書く</Button>
