@@ -17,15 +17,20 @@ import axios from "axios";
 import "../css/detail.css";
 import Header from "../components/header/Header";
 import Footer from "../components/footer/Footer";
+import ReactDOM from 'react-dom';
+import AliceCarousel from 'react-alice-carousel';
 import SimpleImageSlider from 'react-simple-image-slider';
 import { Zoom } from 'react-slideshow-image';
 import 'react-slideshow-image/dist/styles.css';
 import { useSelector } from "react-redux";
+import "react-alice-carousel/lib/alice-carousel.css";
+
 
 function GymDetail() {
   const user = useSelector(state => state.auth.user);
   const [room, setRoom] = useState({});
-  const [selectedImage, setSelectedImage] = useState(room.Images ? room.Images[0].image : '');
+  const [selectedImage, setSelectedImage] = useState({});
+  // const [selectedImage, setSelectedImage] = useState(room.Images ? room.Images[0].image : '');
   const [open, setOpen] = useState(false);
 
   const { id } = useParams();
@@ -68,7 +73,7 @@ function GymDetail() {
   const handleSetSelectedImage = (image) => {
     setSelectedImage(image);
   }
-  console.log("room:", room.pool);
+  console.log('selectedImage>>>', selectedImage);
   return (
     <>
       <Header />
@@ -84,38 +89,39 @@ function GymDetail() {
               </Link>
               <Typography color="text.primary">ルームジム情報</Typography>
             </Breadcrumbs>
-            <Zoom
-              //use map to render images with indicators
-              indicators={
-                () => {
-                  (
-                    <img
-                      src={'http://' + selectedImage}
-                      alt="Selected Product"
-                      style={{ width: '100px', height: '100px', margin: '0 5px', cursor: 'pointer' }}
-                    />
-                  )
-                }
+            <AliceCarousel
+              disableDotsControls={true}>
+              {room.Images && room.Images.map((image, index) => (
+                <div>
+                  <img
+                    src={'http://' + image.image}
+                    style={{ height: '400px', width: '100%', objectFit: 'cover' }}
+                  />
+                </div>
+
+              ))
               }
-              scale={1.4}>
+            </AliceCarousel>
+            <div style={{ display: 'flex', marginBottom: '50px' }} className="">
               {
                 room.Images && room.Images.map((image, index) => (
-                  <div className="each-slide-effect" style={{ width: '100%' }}>
+                  <div className="" style={{ width: '100%', padding: '10px' }}>
                     <img
                       src={'http://' + image.image}
-                      style={{ height: '400px', width: '100%', objectFit: 'cover' }}
+                      style={{ width: '100%', height: '100%', margin: '0 5px', cursor: 'pointer' }}
+                    // onClick={() => handleImageClick(image.image)}
                     />
                   </div>
                 ))
               }
-            </Zoom>
+            </div>
 
           </Grid>
           <Grid item xs={8} style={{ margin: "50px 0", paddingLeft: "50px" }}>
             <Typography variant="h3">ルームジム情報</Typography>
             <Typography variant="h6" mt={2} style={{ display: 'flex', justifyContent: 'space-between' }}>
               <div style={{ display: 'flex', }} >ジムの評価 &nbsp;&nbsp;&nbsp;<u>{Math.round(room.rating * 10) / 10}</u><StarOutlineIcon style={{ alignSelf: 'center', }} /></div>
-              <div style={{ display: 'flex', }}>プールの評価 &nbsp;&nbsp;&nbsp;<u>3.9</u><StarOutlineIcon style={{ alignSelf: 'center', }} /></div>
+              <div style={{ display: 'flex', }}>プールの評価 &nbsp;&nbsp;&nbsp;<u>{room.pool_rating}</u><StarOutlineIcon style={{ alignSelf: 'center', }} /></div>
             </Typography>
             <Typography variant="h6" mt={2} style={{ display: 'flex', justifyContent: 'end' }}>
               <div style={{ display: 'flex', }}>

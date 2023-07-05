@@ -13,3 +13,21 @@
 .react-slideshow-container+ul.indicators{
   padding: 0;
 }
+.alice-carousel__next-btn-wrapper{
+  position: absolute;
+    top: 35%;
+    right: 0;
+    color: white;
+    font-size: 50px;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+.alice-carousel__prev-btn-wrapper{
+  text-align: left;
+  position: absolute;
+    top: 35%;
+    left: 0;
+    color: white;
+    font-size: 50px;
+    background-color:rgba(0, 0, 0, 0.5);
+
+}
