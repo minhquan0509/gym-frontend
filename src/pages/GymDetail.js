@@ -87,12 +87,15 @@ function GymDetail() {
             <Zoom
               //use map to render images with indicators
               indicators={
-                () =>
-                  <img
-                    src={'http://' + selectedImage}
-                    alt="Selected Product"
-                    style={{ width: '100px', height: '100px', margin: '0 5px', cursor: 'pointer' }}
-                  />
+                () => {
+                  (
+                    <img
+                      src={'http://' + selectedImage}
+                      alt="Selected Product"
+                      style={{ width: '100px', height: '100px', margin: '0 5px', cursor: 'pointer' }}
+                    />
+                  )
+                }
               }
               scale={1.4}>
               {

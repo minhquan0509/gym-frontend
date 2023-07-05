@@ -16,10 +16,21 @@ function SearchPage() {
 
   const fetchData = async () => {
     try {
+      const params = {
+        name: name,
+        address: address
+      };
       const pool = service.includes('pool');
       const sauna = service.includes('sauna');
       const parking = service.includes('parking');
-      const response = await axios.get(`http://localhost:3001/rooms?name=${name}&address=${address}&service[pool]=${pool}&service[sauna]=${sauna}&service[parking]=${parking}&priceMin=${price ? price.priceMin : ''}&priceMax=${price ? price.priceMax : ''}`);
+      if(pool) params['service[pool]'] = true;
+      if(sauna) params['service[sauna]'] = true;
+      if(parking) params['service[parking]'] = true;
+
+      // const response = await axios.get(`http://localhost:3001/rooms?name=${name}&address=${address}&service[pool]=${pool}&service[sauna]=${sauna}&service[parking]=${parking}&priceMin=${price ? price.priceMin : ''}&priceMax=${price ? price.priceMax : ''}`);
+      const response = await axios.get(`http://localhost:3001/rooms`, {
+        params
+      });
       console.log(response.data.data.rooms)
       await setRooms(response.data.data.rooms)
       console.log('rooms:', rooms)
@@ -62,7 +73,7 @@ function SearchPage() {
         <Grid container spacing={3} marginTop={'20px'}>
           <Grid item xs={3}>
             <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-label">住所</InputLabel>
+              {/* <InputLabel id="demo-simple-select-label">住所</InputLabel> */}
               <TextField placeholder="住所" rows={1} fullWidth onChange={handleChangeAddress} />
             </FormControl>
           </Grid>
