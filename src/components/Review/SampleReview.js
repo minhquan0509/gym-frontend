@@ -1,24 +1,21 @@
-import React, { useState } from "react";
+import CloseIcon from "@mui/icons-material/Close";
+import ThumbDownAltIcon from "@mui/icons-material/ThumbDownAlt";
+import ThumbDownOffAltIcon from "@mui/icons-material/ThumbDownOffAlt";
+import ThumbUpAlt from "@mui/icons-material/ThumbUp";
+import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
 import {
   Avatar,
   Box,
-  Typography,
-  Rating,
   Grid,
   IconButton,
+  Rating,
+  Typography,
 } from "@mui/material";
-import ThumbUpAlt from "@mui/icons-material/ThumbUp";
-import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
-import ThumbDownOffAltIcon from "@mui/icons-material/ThumbDownOffAlt";
-import ThumbDownAltIcon from "@mui/icons-material/ThumbDownAlt";
-import "../../css/review.css";
-import axios from "axios";
-import { useEffect } from "react";
-import Pagination from '@mui/material/Pagination';
-import Stack from '@mui/material/Stack';
+import React, { useState } from "react";
 import { useParams } from "react-router-dom";
+import "../../css/review.css";
 
-function SampleReview({review, havePool}) {
+function SampleReview({ review, havePool }) {
   const { id } = useParams();
   const date = new Date(review.createdAt).toLocaleString();
 
@@ -28,6 +25,8 @@ function SampleReview({review, havePool}) {
   const [liked, setLiked] = useState(false);
   const [dislikeCount, setDislikeCount] = useState(0);
   const [disliked, setDisliked] = useState(false);
+  const [fullscreen, setFullscreen] = useState(false);
+  const [imageForFullscreen, setImageForFullscreen] = useState();
 
   const handleLike = () => {
     if (!disliked) {
@@ -53,11 +52,62 @@ function SampleReview({review, havePool}) {
 
   return (
     <>
+      <img
+        src={"http://" + imageForFullscreen}
+        style={{
+          height: "80%",
+          width: "60%",
+          objectFit: "cover",
+          position: "fixed",
+          top: "50%",
+          right: "50%",
+          transform: "translate(50%,-50%)",
+          display: fullscreen ? "block" : "none",
+          zIndex: 30,
+        }}
+        alt="preview"
+      />
+      <CloseIcon
+        style={{
+          cursor: "pointer",
+          position: "fixed",
+          right: "20px",
+          top: "10px",
+          zIndex: 40,
+          display: fullscreen ? "block" : "none",
+        }}
+        fontSize="large"
+        onClick={() => {
+          setFullscreen(false);
+        }}
+      />
+      <Grid
+        style={{
+          width: "100vw",
+          height: "100vh",
+          position: "fixed",
+          top: 0,
+          left: 0,
+          backgroundColor: "#eeeeee",
+          zIndex: 20,
+          opacity: fullscreen ? 0.9 : 0,
+          display: fullscreen ? "block" : "none",
+        }}
+      ></Grid>
       <Box className="review_list-item">
         <div className="review_list-user-content">
           <div className="review_list-user-infor">
-            <Avatar src={sampleAvatarUrl} alt="Avatar" className="review_list-user-infor-avatarUser" />
-            <div style={{ textAlign: 'center' }} className="review_list-user-infor-name" >{review.User.name}</div>
+            <Avatar
+              src={sampleAvatarUrl}
+              alt="Avatar"
+              className="review_list-user-infor-avatarUser"
+            />
+            <div
+              style={{ textAlign: "center" }}
+              className="review_list-user-infor-name"
+            >
+              {review.User.name}
+            </div>
             <Rating
               name="sample-rating"
               value={review.rating}
@@ -65,20 +115,26 @@ function SampleReview({review, havePool}) {
               size="small"
             />
           </div>
-          <Box sx={{ ml: 3 }} style={{ display: 'flex', flexDirection: 'column' }}>
-            <Typography gutterBottom>
-              {review.review}
-            </Typography>
+          <Box
+            sx={{ ml: 3 }}
+            style={{ display: "flex", flexDirection: "column" }}
+          >
+            <Typography gutterBottom>{review.review}</Typography>
             <Grid>
-              {review.ReviewImages && review.ReviewImages.map(item => (
-                <img
-                src={'http://' + item.image}
-                alt="Review Image"
-                width="80"
-                height="80"
-                className="reviewedImg"
-              />
-              ))}
+              {review.ReviewImages &&
+                review.ReviewImages.map((item) => (
+                  <img
+                    src={"http://" + item.image}
+                    alt="Review Image"
+                    width="80"
+                    height="80"
+                    className="reviewedImg"
+                    onClick={() => {
+                      setImageForFullscreen(item.image);
+                      setFullscreen(true);
+                    }}
+                  />
+                ))}
             </Grid>
           </Box>
         </div>
@@ -91,7 +147,8 @@ function SampleReview({review, havePool}) {
                   name="sample-rating"
                   value={review.PoolRating.rating}
                   readOnly
-                  size="small" />
+                  size="small"
+                />
               </div>
             )}
             <div>投稿日：{date}</div>

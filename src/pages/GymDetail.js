@@ -8,7 +8,7 @@ import {
   DialogTitle,
   Dialog,
   Breadcrumbs,
-  Rating
+  Rating,
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
@@ -16,16 +16,21 @@ import axios from "axios";
 import "../css/detail.css";
 import Header from "../components/header/Header";
 import Footer from "../components/footer/Footer";
-import SimpleImageSlider from 'react-simple-image-slider';
-import { Zoom } from 'react-slideshow-image';
-import 'react-slideshow-image/dist/styles.css';
+import SimpleImageSlider from "react-simple-image-slider";
+import { Zoom } from "react-slideshow-image";
+import "react-slideshow-image/dist/styles.css";
 import { useSelector } from "react-redux";
+import CloseIcon from "@mui/icons-material/Close";
 
 function GymDetail() {
-  const user = useSelector(state => state.auth.user);
+  const user = useSelector((state) => state.auth.user);
   const [room, setRoom] = useState({});
-  const [selectedImage, setSelectedImage] = useState(room.Images ? room.Images[0].image : '');
+  const [selectedImage, setSelectedImage] = useState(
+    room.Images ? room.Images[0].image : ""
+  );
   const [open, setOpen] = useState(false);
+  const [fullscreen, setFullscreen] = useState(false);
+  const [imageForFullscreen, setImageForFullscreen] = useState();
 
   const { id } = useParams();
 
@@ -44,9 +49,9 @@ function GymDetail() {
 
   useEffect(() => {
     if (room) {
-      setSelectedImage(room.Images ? room.Images[0].image : ''); // Set the other state based on the API data
+      setSelectedImage(room.Images ? room.Images[0].image : ""); // Set the other state based on the API data
     }
-  }, [room])
+  }, [room]);
 
   const handleOpen = () => {
     setOpen(true);
@@ -66,53 +71,129 @@ function GymDetail() {
   };
   const handleSetSelectedImage = (image) => {
     setSelectedImage(image);
-  }
+  };
   return (
     <>
       <Header />
-      <Container style={{ paddingTop: "80px", minHeight: 'calc( 100vh - 240px )' }} fixed>
+      <img
+        src={"http://" + imageForFullscreen}
+        style={{
+          height: "80%",
+          width: "60%",
+          objectFit: "cover",
+          position: "fixed",
+          top: "50%",
+          right: "50%",
+          transform: "translate(50%,-50%)",
+          display: fullscreen ? "block" : "none",
+          zIndex: 30,
+        }}
+        alt="preview"
+      />
+      <CloseIcon
+        style={{
+          cursor: "pointer",
+          position: "fixed",
+          right: "20px",
+          top: "10px",
+          zIndex: 40,
+          display: fullscreen ? "block" : "none",
+        }}
+        fontSize="large"
+        onClick={() => {
+          setFullscreen(false);
+        }}
+      />
+      <Grid
+        style={{
+          width: "100vw",
+          height: "100vh",
+          position: "fixed",
+          top: 0,
+          left: 0,
+          backgroundColor: "#eeeeee",
+          zIndex: 20,
+          opacity: fullscreen ? 0.9 : 0,
+          display: fullscreen ? "block" : "none",
+        }}
+      ></Grid>
+      <Container
+        style={{ paddingTop: "80px", minHeight: "calc( 100vh - 240px )" }}
+        fixed
+      >
         <Grid container spacing={2}>
           <Grid item xs={4}>
             <Zoom
-              indicators={
-                () => (
-                  <img
-                    src={'http://' + selectedImage}
-                    alt="Selected Product"
-                    style={{ width: '50px', height: '50px', margin: '0 5px', cursor: 'pointer' }}
-                  />
-                )
-              }
-              scale={1.4}>
-              <div className="each-slide-effect" style={{ width: '100%' }}>
+              indicators={() => (
                 <img
-                  src={'http://' + selectedImage}
-                  style={{ height: '400px', width: '100%', objectFit: 'cover' }}
+                  src={"http://" + selectedImage}
+                  alt="Selected Product"
+                  style={{
+                    width: "50px",
+                    height: "50px",
+                    margin: "0 5px",
+                    cursor: "pointer",
+                  }}
+                />
+              )}
+              scale={1.4}
+            >
+              <div
+                className="each-slide-effect"
+                style={{ width: "100%" }}
+                onClick={() => {
+                  setImageForFullscreen(selectedImage);
+                  setFullscreen(true);
+                }}
+              >
+                <img
+                  src={"http://" + selectedImage}
+                  style={{ height: "400px", width: "100%", objectFit: "cover" }}
                 />
               </div>
-              <div className="each-slide-effect" style={{ width: '100%' }}>
+              <div
+                className="each-slide-effect"
+                style={{ width: "100%" }}
+                onClick={() => {
+                  setImageForFullscreen(selectedImage);
+                  setFullscreen(true);
+                }}
+              >
                 <img
-                  src={'http://' + selectedImage}
-                  style={{ height: '400px', width: '100%', objectFit: 'cover' }}
+                  src={"http://" + selectedImage}
+                  style={{ height: "400px", width: "100%", objectFit: "cover" }}
                 />
               </div>
-              <div className="each-slide-effect" style={{ width: '100%' }}>
+              <div
+                className="each-slide-effect"
+                style={{ width: "100%" }}
+                onClick={() => {
+                  setImageForFullscreen(selectedImage);
+                  setFullscreen(true);
+                }}
+              >
                 <img
-                  src={'http://' + selectedImage}
-                  style={{ height: '400px', width: '100%', objectFit: 'cover' }}
+                  src={"http://" + selectedImage}
+                  style={{ height: "400px", width: "100%", objectFit: "cover" }}
                 />
               </div>
             </Zoom>
-
           </Grid>
           <Grid item xs={8} style={{ margin: "50px 0", paddingLeft: "50px" }}>
             <Typography variant="h3">ルームジム情報</Typography>
             <Typography ml={50} variant="subtitle1" gutterBottom>
-              {room.lastLogin ? 'Owner last login: ' + new Date(room.lastLogin).toLocaleString() : ''}
+              {room.lastLogin
+                ? "Owner last login: " +
+                  new Date(room.lastLogin).toLocaleString()
+                : ""}
             </Typography>
             <Typography variant="h6" mt={2}>
-              Rating: {room.rating ? 
-              <Rating name="read-only" value={room.rating} readOnly /> : "未登録"}
+              Rating:{" "}
+              {room.rating ? (
+                <Rating name="read-only" value={room.rating} readOnly />
+              ) : (
+                "未登録"
+              )}
             </Typography>
             <Typography variant="h6" mt={2}>
               - ジム名: {room.name}
@@ -134,37 +215,47 @@ function GymDetail() {
             </Link>
           </Grid>
         </Grid>
-        { user && user.id === room.owner_id &&
-        <div className="owner-button">
-          <Button variant="contained" color="error" onClick={handleOpen} className="button-delete">
-            削除
-          </Button>
-          <Dialog
-            open={open}
-            onClose={handleClose}
-            aria-labelledby="alert-dialog-title"
-            aria-describedby="alert-dialog-description"
-          >
-            <DialogTitle id="alert-dialog-title">
-              {"このジムルームを削除することを確認しますか?"}
-            </DialogTitle>
-            <DialogActions>
-              <Button onClick={handleClose} className="button-delete">
-                キャンセル
-              </Button>
-              <Button onClick={handleDelete} autoFocus className="button">
-                削除する
-              </Button>
-            </DialogActions>
-          </Dialog>
-          <Link to={`editgym`}>
-            <Button variant="contained" color="success" onClick={handleOpen} className="button">
-              編集
+        {user && user.id === room.owner_id && (
+          <div className="owner-button">
+            <Button
+              variant="contained"
+              color="error"
+              onClick={handleOpen}
+              className="button-delete"
+            >
+              削除
             </Button>
-          </Link>
-        </div>
-        }
-      </Container >
+            <Dialog
+              open={open}
+              onClose={handleClose}
+              aria-labelledby="alert-dialog-title"
+              aria-describedby="alert-dialog-description"
+            >
+              <DialogTitle id="alert-dialog-title">
+                {"このジムルームを削除することを確認しますか?"}
+              </DialogTitle>
+              <DialogActions>
+                <Button onClick={handleClose} className="button-delete">
+                  キャンセル
+                </Button>
+                <Button onClick={handleDelete} autoFocus className="button">
+                  削除する
+                </Button>
+              </DialogActions>
+            </Dialog>
+            <Link to={`editgym`}>
+              <Button
+                variant="contained"
+                color="success"
+                onClick={handleOpen}
+                className="button"
+              >
+                編集
+              </Button>
+            </Link>
+          </div>
+        )}
+      </Container>
       <Footer />
     </>
   );
