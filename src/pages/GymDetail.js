@@ -7,52 +7,51 @@ import {
   DialogActions,
   DialogTitle,
   Dialog,
-  Breadcrumbs
+  Breadcrumbs,
+  Rating,
 } from "@mui/material";
-import StarOutlineIcon from '@mui/icons-material/StarOutline';
-import PanoramaFishEyeIcon from '@mui/icons-material/PanoramaFishEye';
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import axios from "axios";
 import "../css/detail.css";
 import Header from "../components/header/Header";
 import Footer from "../components/footer/Footer";
-import ReactDOM from 'react-dom';
-import AliceCarousel from 'react-alice-carousel';
-import SimpleImageSlider from 'react-simple-image-slider';
-import { Zoom } from 'react-slideshow-image';
-import 'react-slideshow-image/dist/styles.css';
+import SimpleImageSlider from "react-simple-image-slider";
+import { Zoom } from "react-slideshow-image";
+import "react-slideshow-image/dist/styles.css";
 import { useSelector } from "react-redux";
-import "react-alice-carousel/lib/alice-carousel.css";
-
+import CloseIcon from "@mui/icons-material/Close";
 
 function GymDetail() {
-  const user = useSelector(state => state.auth.user);
+  const user = useSelector((state) => state.auth.user);
+  const token = useSelector((state) => state.auth.token);
   const [room, setRoom] = useState({});
-  const [selectedImage, setSelectedImage] = useState({});
-  // const [selectedImage, setSelectedImage] = useState(room.Images ? room.Images[0].image : '');
+  const [selectedImage, setSelectedImage] = useState(
+    room.Images ? room.Images[0].image : ""
+  );
   const [open, setOpen] = useState(false);
+  const [fullscreen, setFullscreen] = useState(false);
+  const [imageForFullscreen, setImageForFullscreen] = useState();
 
   const { id } = useParams();
 
+  const fetchData = async () => {
+    try {
+      const response = await axios.get(`http://localhost:3001/rooms/${id}`);
+      setRoom(response.data.data.room);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(`http://localhost:3001/rooms/${id}`);
-        setRoom(response.data.data.room);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-
     fetchData();
   }, [id]);
 
   useEffect(() => {
     if (room) {
-      setSelectedImage(room.Images ? room.Images[0].image : ''); // Set the other state based on the API data
+      setSelectedImage(room.Images ? room.Images[0].image : ""); // Set the other state based on the API data
     }
-  }, [room])
+  }, [room]);
 
   const handleOpen = () => {
     setOpen(true);
@@ -67,40 +66,98 @@ function GymDetail() {
     setOpen(false);
   };
 
+  const handleInactive = async () => {
+    await axios.post(`http://localhost:3001/rooms/${id}/inactive`, {}, {
+      headers: {
+        "Authorization": "Bearer " + token
+      },
+    });
+    fetchData();
+  }
+
+  const handleActive = async () => {
+    await axios.post(`http://localhost:3001/rooms/${id}/active`, {}, {
+      headers: {
+        "Authorization": "Bearer " + token
+      },
+    });
+    fetchData()
+  }
+
   const handleImageClick = (image) => {
     setSelectedImage(image);
   };
   const handleSetSelectedImage = (image) => {
     setSelectedImage(image);
-  }
+  };
   return (
     <>
       <Header />
-      <Container style={{ paddingTop: "80px", minHeight: 'calc( 100vh - 240px )' }} fixed>
+      <img
+        src={"http://" + imageForFullscreen}
+        style={{
+          height: "80%",
+          width: "60%",
+          objectFit: "cover",
+          position: "fixed",
+          top: "50%",
+          right: "50%",
+          transform: "translate(50%,-50%)",
+          display: fullscreen ? "block" : "none",
+          zIndex: 30,
+        }}
+        alt="preview"
+      />
+      <CloseIcon
+        style={{
+          cursor: "pointer",
+          position: "fixed",
+          right: "20px",
+          top: "10px",
+          zIndex: 40,
+          display: fullscreen ? "block" : "none",
+        }}
+        fontSize="large"
+        onClick={() => {
+          setFullscreen(false);
+        }}
+      />
+      <Grid
+        style={{
+          width: "100vw",
+          height: "100vh",
+          position: "fixed",
+          top: 0,
+          left: 0,
+          backgroundColor: "#eeeeee",
+          zIndex: 20,
+          opacity: fullscreen ? 0.9 : 0,
+          display: fullscreen ? "block" : "none",
+        }}
+      ></Grid>
+      <Container
+        style={{ paddingTop: "80px", minHeight: "calc( 100vh - 240px )" }}
+        fixed
+      >
         <Grid container spacing={2}>
           <Grid item xs={4}>
-            <Breadcrumbs aria-label="breadcrumb" style={{ marginBottom: '30px' }}>
-              <Link color="inherit" href="/">
-                ホーム
-              </Link>
-              <Link color="inherit" href="/">
-                カテゴリー
-              </Link>
-              <Typography color="text.primary">ルームジム情報</Typography>
-            </Breadcrumbs>
-            <AliceCarousel
-              disableDotsControls={true}>
+            <Zoom>
               {room.Images && room.Images.map((image, index) => (
-                <div>
+                <div
+                  className="each-slide-effect"
+                  style={{ width: "100%" }}
+                  onClick={() => {
+                    setImageForFullscreen(selectedImage);
+                    setFullscreen(true);
+                  }}
+                >
                   <img
-                    src={'http://' + image.image}
-                    style={{ height: '400px', width: '100%', objectFit: 'cover' }}
+                    src={"http://" + image.image}
+                    style={{ height: "400px", width: "100%", objectFit: "cover" }}
                   />
                 </div>
-
-              ))
-              }
-            </AliceCarousel>
+              ))}
+            </Zoom>
             <div style={{ display: 'flex', marginBottom: '50px' }} className="">
               {
                 room.Images && room.Images.map((image, index) => (
@@ -108,25 +165,27 @@ function GymDetail() {
                     <img
                       src={'http://' + image.image}
                       style={{ width: '100%', height: '100%', margin: '0 5px', cursor: 'pointer' }}
-                    // onClick={() => handleImageClick(image.image)}
                     />
                   </div>
                 ))
               }
             </div>
-
           </Grid>
           <Grid item xs={8} style={{ margin: "50px 0", paddingLeft: "50px" }}>
             <Typography variant="h3">ルームジム情報</Typography>
-            <Typography variant="h6" mt={2} style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <div style={{ display: 'flex', }} >ジムの評価 &nbsp;&nbsp;&nbsp;<u>{Math.round(room.rating * 10) / 10}</u><StarOutlineIcon style={{ alignSelf: 'center', }} /></div>
-              <div style={{ display: 'flex', }}>プールの評価 &nbsp;&nbsp;&nbsp;<u>{room.pool_rating}</u><StarOutlineIcon style={{ alignSelf: 'center', }} /></div>
+            <Typography ml={50} variant="subtitle1" gutterBottom>
+              {room.lastLogin
+                ? "Owner last login: " +
+                new Date(room.lastLogin).toLocaleString()
+                : ""}
             </Typography>
-            <Typography variant="h6" mt={2} style={{ display: 'flex', justifyContent: 'end' }}>
-              <div style={{ display: 'flex', }}>
-                <PanoramaFishEyeIcon style={{ color: 'rgb(0, 164, 243)', alignSelf: 'center' }} />&nbsp;
-                {user.lastLogin ? user.lastLogin : '2021-10-10'}
-              </div>
+            <Typography variant="h6" mt={2}>
+              Rating:{" "}
+              {room.rating ? (
+                <Rating name="read-only" value={room.rating} readOnly />
+              ) : (
+                "未登録"
+              )}
             </Typography>
             <Typography variant="h6" mt={2}>
               - ジム名: {room.name}
@@ -138,27 +197,28 @@ function GymDetail() {
               - ジムオーナー: {room.ownerName}
             </Typography>
             <Typography variant="h6" mt={2}>
-              - 電話番号：
-            </Typography>
-            <Typography variant="h6" mt={2}>
-              - 一ヶ月の登録料金：{room.price}
+              - 電話番号: {room.phone ? room.phone : ''}
             </Typography>
             <Typography variant="h6" mt={2} mb={2}>
-              - サービス：
-              {room.pool ? 'プール　' : ''}
-              {room.sauna ? 'スパサウナ室　' : ''}
-              {room.parking ? '駐車場　' : ''}
-
+              - 登録価格: {room.price}
+            </Typography>
+            <Typography variant="h6" mt={2} mb={2}>
+              - サービス: {room.pool ? 'プール' : ''}, {room.sauna ? 'サウナ室' : ''}, {room.parking ? '駐車場' : ''}
             </Typography>
             <Link to={`review`}>
               <Button variant="contained">レビューを表示して書く</Button>
             </Link>
           </Grid>
         </Grid>
-        {user && user.id === room.owner_id &&
+        {user && user.id === room.owner_id && (
           <div className="owner-button">
-            <Button variant="contained" color="error" onClick={handleOpen} className="button-delete">
-              削除
+            <Button
+              variant="contained"
+              color="error"
+              onClick={handleOpen}
+              className="button-delete"
+            >
+              Xóa
             </Button>
             <Dialog
               open={open}
@@ -171,21 +231,35 @@ function GymDetail() {
               </DialogTitle>
               <DialogActions>
                 <Button onClick={handleClose} className="button-delete">
-                  キャンセル
+                  Hủy
                 </Button>
                 <Button onClick={handleDelete} autoFocus className="button">
-                  削除する
+                  Xóa
                 </Button>
               </DialogActions>
             </Dialog>
             <Link to={`editgym`}>
-              <Button variant="contained" color="success" onClick={handleOpen} className="button">
-                編集
+              <Button
+                variant="contained"
+                color="success"
+                onClick={handleOpen}
+                className="button"
+              >
+                Sửa
               </Button>
             </Link>
+            {room.status ?
+              <Button onClick={handleInactive} variant="contained" className="button-delete">
+                Tạm ngừng hoạt động
+              </Button>
+              :
+              <Button onClick={handleActive} variant="contained" className="button-delete">
+                Hoạt động
+              </Button>
+            }
           </div>
-        }
-      </Container >
+        )}
+      </Container>
       <Footer />
     </>
   );
