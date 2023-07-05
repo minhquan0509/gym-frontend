@@ -73,7 +73,6 @@ function GymDetail() {
   const handleSetSelectedImage = (image) => {
     setSelectedImage(image);
   }
-  console.log('selectedImage>>>', selectedImage);
   return (
     <>
       <Header />
