@@ -31,6 +31,7 @@ function AddGym() {
   const [name, setName] = useState("");
   const [address, setAddress] = useState("");
   const [price, setPrice] = useState("");
+  const [phone, setPhone] = useState("");
   const [noti, setNoti] = useState("");
 
   const [service, setService] = useState([]);
@@ -84,6 +85,10 @@ function AddGym() {
     setPrice(event.target.value);
   };
 
+  const handleChangePhone = (event) => {
+    setPhone(event.target.value);
+  };
+
   const handleAddIconClick = () => {
     fileInputRef.current.click();
   };
@@ -98,6 +103,7 @@ function AddGym() {
     formData.append("address", address);
     formData.append("price", price);
     formData.append("owner_id", user.id);
+    formData.append("phone", phone);
     formData.append("pool", service.includes("Hồ bơi"));
     formData.append("sauna", service.includes("Xông hơi"));
     formData.append("parking", service.includes("Bãi đỗ xe"));
@@ -242,7 +248,7 @@ function AddGym() {
           </div>
           <div className="input-item">
             <div className="label">Số điện thoại</div>
-            <input type="number" className={`input`} />
+            <input type="number" className={`input`} onChange={handleChangePhone}/>
           </div>
           <div className="input-item">
             <div className="label">Mức giá 1 tháng (vnđ)</div>

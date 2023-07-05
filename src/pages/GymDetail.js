@@ -24,6 +24,7 @@ import CloseIcon from "@mui/icons-material/Close";
 
 function GymDetail() {
   const user = useSelector((state) => state.auth.user);
+  const token = useSelector((state) => state.auth.token);
   const [room, setRoom] = useState({});
   const [selectedImage, setSelectedImage] = useState(
     room.Images ? room.Images[0].image : ""
@@ -34,16 +35,15 @@ function GymDetail() {
 
   const { id } = useParams();
 
+  const fetchData = async () => {
+    try {
+      const response = await axios.get(`http://localhost:3001/rooms/${id}`);
+      setRoom(response.data.data.room);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(`http://localhost:3001/rooms/${id}`);
-        setRoom(response.data.data.room);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-
     fetchData();
   }, [id]);
 
@@ -65,6 +65,24 @@ function GymDetail() {
     //Xoa room
     setOpen(false);
   };
+
+  const handleInactive = async () => {
+    await axios.post(`http://localhost:3001/rooms/${id}/inactive`, {}, {
+      headers: {
+        "Authorization": "Bearer " + token
+      },
+    });
+    fetchData();
+  }
+
+  const handleActive = async () => {
+    await axios.post(`http://localhost:3001/rooms/${id}/active`, {}, {
+      headers: {
+        "Authorization": "Bearer " + token
+      },
+    });
+    fetchData()
+  }
 
   const handleImageClick = (image) => {
     setSelectedImage(image);
@@ -205,10 +223,13 @@ function GymDetail() {
               - ジムオーナー: {room.ownerName}
             </Typography>
             <Typography variant="h6" mt={2}>
-              - 電話番号
+              - 電話番号: {room.phone ? room.phone : ''}
             </Typography>
             <Typography variant="h6" mt={2} mb={2}>
               - 登録価格: {room.price}
+            </Typography>
+            <Typography variant="h6" mt={2} mb={2}>
+              - サービス: {room.pool ? 'プール' : ''}, {room.sauna ? 'サウナ室' : ''}, {room.parking ? '駐車場' : ''}
             </Typography>
             <Link to={`review`}>
               <Button variant="contained">レビューを表示して書く</Button>
@@ -223,7 +244,7 @@ function GymDetail() {
               onClick={handleOpen}
               className="button-delete"
             >
-              削除
+              Xóa
             </Button>
             <Dialog
               open={open}
@@ -236,10 +257,10 @@ function GymDetail() {
               </DialogTitle>
               <DialogActions>
                 <Button onClick={handleClose} className="button-delete">
-                  キャンセル
+                  Hủy
                 </Button>
                 <Button onClick={handleDelete} autoFocus className="button">
-                  削除する
+                  Xóa
                 </Button>
               </DialogActions>
             </Dialog>
@@ -250,9 +271,18 @@ function GymDetail() {
                 onClick={handleOpen}
                 className="button"
               >
-                編集
+                Sửa
               </Button>
             </Link>
+            { room.status ? 
+            <Button onClick={handleInactive} variant="contained" className="button-delete">
+              Tạm ngừng hoạt động
+            </Button>
+            :
+            <Button onClick={handleActive} variant="contained" className="button-delete">
+              Hoạt động
+            </Button>
+            }
           </div>
         )}
       </Container>
