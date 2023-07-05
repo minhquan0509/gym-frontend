@@ -16,11 +16,11 @@ import axios from "axios";
 import "../css/detail.css";
 import Header from "../components/header/Header";
 import Footer from "../components/footer/Footer";
-import SimpleImageSlider from "react-simple-image-slider";
-import { Zoom } from "react-slideshow-image";
+import AliceCarousel from 'react-alice-carousel';
 import "react-slideshow-image/dist/styles.css";
 import { useSelector } from "react-redux";
 import CloseIcon from "@mui/icons-material/Close";
+import "react-alice-carousel/lib/alice-carousel.css";
 
 function GymDetail() {
   const user = useSelector((state) => state.auth.user);
@@ -141,13 +141,15 @@ function GymDetail() {
       >
         <Grid container spacing={2}>
           <Grid item xs={4}>
-            <Zoom>
-              {room.Images && room.Images.map((image, index) => (
+            <AliceCarousel
+              disableDotsControls={true}
+            >
+              {room.Images && room.Images.map((image) => (
                 <div
                   className="each-slide-effect"
                   style={{ width: "100%" }}
                   onClick={() => {
-                    setImageForFullscreen(selectedImage);
+                    setImageForFullscreen(image.image);
                     setFullscreen(true);
                   }}
                 >
@@ -157,10 +159,10 @@ function GymDetail() {
                   />
                 </div>
               ))}
-            </Zoom>
+            </AliceCarousel>
             <div style={{ display: 'flex', marginBottom: '50px' }} className="">
               {
-                room.Images && room.Images.map((image, index) => (
+                room.Images && room.Images.map((image) => (
                   <div className="" style={{ width: '100%', padding: '10px' }}>
                     <img
                       src={'http://' + image.image}
