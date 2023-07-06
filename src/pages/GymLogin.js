@@ -14,6 +14,8 @@ function GymLogin() {
     const error = useSelector(state => state.auth.error);
     const dispatch = useDispatch();
 
+
+
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate()
@@ -29,9 +31,9 @@ function GymLogin() {
 
     useEffect(() => {
         if (user) {
-          navigate('/')
+            navigate('/')
         }
-      }, [user]);
+    }, [user]);
 
     const handleChangeUsername = (event) => {
         setUsername(event.target.value)
@@ -43,7 +45,7 @@ function GymLogin() {
 
     const handleLogin = () => {
         // const params = { username, password }
-        dispatch(loginRequest({username, password}))
+        dispatch(loginRequest({ username, password }))
     }
 
     return (

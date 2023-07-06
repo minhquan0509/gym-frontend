@@ -16,11 +16,11 @@ import axios from "axios";
 import "../css/detail.css";
 import Header from "../components/header/Header";
 import Footer from "../components/footer/Footer";
-import SimpleImageSlider from "react-simple-image-slider";
-import { Zoom } from "react-slideshow-image";
+import AliceCarousel from 'react-alice-carousel';
 import "react-slideshow-image/dist/styles.css";
 import { useSelector } from "react-redux";
 import CloseIcon from "@mui/icons-material/Close";
+import "react-alice-carousel/lib/alice-carousel.css";
 
 function GymDetail() {
   const user = useSelector((state) => state.auth.user);
@@ -141,68 +141,44 @@ function GymDetail() {
       >
         <Grid container spacing={2}>
           <Grid item xs={4}>
-            <Zoom
-              indicators={() => (
-                <img
-                  src={"http://" + selectedImage}
-                  alt="Selected Product"
-                  style={{
-                    width: "50px",
-                    height: "50px",
-                    margin: "0 5px",
-                    cursor: "pointer",
-                  }}
-                />
-              )}
-              scale={1.4}
+            <AliceCarousel
+              disableDotsControls={true}
             >
-              <div
-                className="each-slide-effect"
-                style={{ width: "100%" }}
-                onClick={() => {
-                  setImageForFullscreen(selectedImage);
-                  setFullscreen(true);
-                }}
-              >
-                <img
-                  src={"http://" + selectedImage}
-                  style={{ height: "400px", width: "100%", objectFit: "cover" }}
-                />
-              </div>
-              <div
-                className="each-slide-effect"
-                style={{ width: "100%" }}
-                onClick={() => {
-                  setImageForFullscreen(selectedImage);
-                  setFullscreen(true);
-                }}
-              >
-                <img
-                  src={"http://" + selectedImage}
-                  style={{ height: "400px", width: "100%", objectFit: "cover" }}
-                />
-              </div>
-              <div
-                className="each-slide-effect"
-                style={{ width: "100%" }}
-                onClick={() => {
-                  setImageForFullscreen(selectedImage);
-                  setFullscreen(true);
-                }}
-              >
-                <img
-                  src={"http://" + selectedImage}
-                  style={{ height: "400px", width: "100%", objectFit: "cover" }}
-                />
-              </div>
-            </Zoom>
+              {room.Images && room.Images.map((image) => (
+                <div
+                  className="each-slide-effect"
+                  style={{ width: "100%" }}
+                  onClick={() => {
+                    setImageForFullscreen(image.image);
+                    setFullscreen(true);
+                  }}
+                >
+                  <img
+                    src={"http://" + image.image}
+                    style={{ height: "400px", width: "100%", objectFit: "cover" }}
+                  />
+                </div>
+              ))}
+            </AliceCarousel>
+            <div style={{ display: 'flex', marginBottom: '50px' }} className="">
+              {
+                room.Images && room.Images.map((image) => (
+                  <div className="" style={{ width: '100%', padding: '10px' }}>
+                    <img
+                      src={'http://' + image.image}
+                      style={{ width: '100%', height: '100%', margin: '0 5px', cursor: 'pointer' }}
+                    />
+                  </div>
+                ))
+              }
+            </div>
           </Grid>
           <Grid item xs={8} style={{ margin: "50px 0", paddingLeft: "50px" }}>
             <Typography variant="h3">ルームジム情報</Typography>
             <Typography ml={50} variant="subtitle1" gutterBottom>
               {room.lastLogin
                 ? "Owner last login: " +
-                  new Date(room.lastLogin).toLocaleString()
+                new Date(room.lastLogin).toLocaleString()
                 : ""}
             </Typography>
             <Typography variant="h6" mt={2}>
@@ -274,14 +250,14 @@ function GymDetail() {
                 Sửa
               </Button>
             </Link>
-            { room.status ? 
-            <Button onClick={handleInactive} variant="contained" className="button-delete">
-              Tạm ngừng hoạt động
-            </Button>
-            :
-            <Button onClick={handleActive} variant="contained" className="button-delete">
-              Hoạt động
-            </Button>
+            {room.status ?
+              <Button onClick={handleInactive} variant="contained" className="button-delete">
+                Tạm ngừng hoạt động
+              </Button>
+              :
+              <Button onClick={handleActive} variant="contained" className="button-delete">
+                Hoạt động
+              </Button>
             }
           </div>
         )}
