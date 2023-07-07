@@ -37,7 +37,7 @@ function GymDetail() {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get(`http://localhost:3001/rooms/${id}`);
+      const response = await axios.get(`${process.env.REACT_APP_API_URL}/rooms/${id}`);
       setRoom(response.data.data.room);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -67,7 +67,7 @@ function GymDetail() {
   };
 
   const handleInactive = async () => {
-    await axios.post(`http://localhost:3001/rooms/${id}/inactive`, {}, {
+    await axios.post(`${process.env.REACT_APP_API_URL}/rooms/${id}/inactive`, {}, {
       headers: {
         "Authorization": "Bearer " + token
       },
@@ -76,7 +76,7 @@ function GymDetail() {
   }
 
   const handleActive = async () => {
-    await axios.post(`http://localhost:3001/rooms/${id}/active`, {}, {
+    await axios.post(`${process.env.REACT_APP_API_URL}/rooms/${id}/active`, {}, {
       headers: {
         "Authorization": "Bearer " + token
       },

@@ -108,7 +108,7 @@ function AddGym() {
     formData.append("sauna", service.includes("Xông hơi"));
     formData.append("parking", service.includes("Bãi đỗ xe"));
     try {
-      const res = await axios.post(`http://localhost:3001/rooms/`, formData, {
+      const res = await axios.post(`${process.env.REACT_APP_API_URL}/rooms/`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },

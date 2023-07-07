@@ -76,7 +76,7 @@ function GymSignUp() {
 
     const signUp = async (params) => {
         try {
-            await axios.post(`http://localhost:3001/users/signup`, params)
+            await axios.post(`${process.env.REACT_APP_API_URL}/users/signup`, params)
             setNoti('Signed up successfully')
             setTimeout(() => {
                 navigate('/login')

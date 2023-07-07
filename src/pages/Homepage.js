@@ -19,7 +19,7 @@ function Homepage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`http://localhost:3001/rooms/`);
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/rooms/`);
         console.log(response.data.data.rooms);
         await setRooms(response.data.data.rooms);
         console.log("rooms:", rooms);

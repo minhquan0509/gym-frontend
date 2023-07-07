@@ -43,7 +43,7 @@ function ReviewForm({havePool, fetchComment}) {
     formData.append("review", comment);
 
     try {
-      const res = await axios.post(`http://localhost:3001/rooms/${id}/reviews`, formData, {
+      const res = await axios.post(`${process.env.REACT_APP_API_URL}/rooms/${id}/reviews`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
           "Authorization": "Bearer " + token

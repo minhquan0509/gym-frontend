@@ -27,8 +27,8 @@ function SearchPage() {
       if(sauna) params['service[sauna]'] = true;
       if(parking) params['service[parking]'] = true;
 
-      // const response = await axios.get(`http://localhost:3001/rooms?name=${name}&address=${address}&service[pool]=${pool}&service[sauna]=${sauna}&service[parking]=${parking}&priceMin=${price ? price.priceMin : ''}&priceMax=${price ? price.priceMax : ''}`);
-      const response = await axios.get(`http://localhost:3001/rooms`, {
+      // const response = await axios.get(`${process.env.REACT_APP_API_URL}/rooms?name=${name}&address=${address}&service[pool]=${pool}&service[sauna]=${sauna}&service[parking]=${parking}&priceMin=${price ? price.priceMin : ''}&priceMax=${price ? price.priceMax : ''}`);
+      const response = await axios.get(`${process.env.REACT_APP_API_URL}/rooms`, {
         params
       });
       console.log(response.data.data.rooms)

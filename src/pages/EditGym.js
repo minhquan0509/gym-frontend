@@ -95,7 +95,7 @@ function EditGym(props) {
     const fetchData = async () => {
       if (gymId) {
         try {
-          const res = await axios.get(`http://localhost:3001/rooms/${gymId}`);
+          const res = await axios.get(`${process.env.REACT_APP_API_URL}/rooms/${gymId}`);
           const room = res.data.data.room;
           setSelectedImages(
             room.Images.map((image) => "http://" + image.image)
@@ -164,7 +164,7 @@ function EditGym(props) {
     formData.append("sauna", service.includes("Xông hơi"));
     formData.append("parking", service.includes("Bãi đỗ xe"));
     try {
-      const res = await axios.patch(`http://localhost:3001/rooms/${gymId}`, formData, {
+      const res = await axios.patch(`${process.env.REACT_APP_API_URL}/rooms/${gymId}`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
